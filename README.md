@@ -5,7 +5,7 @@ Aquí queda registrado el proceso de mi proyecto final para el módulo superior 
 
 Aplicación cliente-servidor para gestionar pedidos de un restaurante.
 La base de datos almacena:
- - Clientes
+ - Usuarios
  - Productos
  - Categorías
  - Pedidos
