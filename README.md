@@ -3,7 +3,7 @@ Aquí queda registrado el proceso de mi proyecto final para el módulo superior 
 
 ## Idea principal
 
-Aplicación cliente-servidor para gestionar pedidos de un restaurante
+Aplicación cliente-servidor para gestionar pedidos de un restaurante.
 La base de datos almacena:
  - Clientes
  - 
