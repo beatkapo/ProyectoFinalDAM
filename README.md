@@ -16,3 +16,5 @@ API Express que se encargará de realizar las consultas a la base de datos.
 ## Cliente
 El cliente solo deberá enviar y recibir peticiones al servidor en formato JSON
 Habrá un sistema de admin que solo se verá si el usuario consta como administrador.
+## Base de datos
+Usaré Firebase Realtime database por su simplicidad.
