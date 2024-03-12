@@ -10,6 +10,9 @@ La base de datos almacena:
  - Categorías
  - Pedidos
 
-El servidor correrá una API con la que se gestionará la base de datos.
+## Servidor
+API Express que se encargará de realizar las consultas a la base de datos.
 
+## Cliente
 El cliente solo deberá enviar y recibir peticiones al servidor en formato JSON
+Habrá un sistema de admin que solo se verá si el usuario consta como administrador.
