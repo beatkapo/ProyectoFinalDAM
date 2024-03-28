@@ -7,6 +7,7 @@ Aplicación cliente-servidor para gestionar pedidos de un restaurante.
 La base de datos almacena:
  - Usuarios
  - Productos
+ - Ingredientes
  - Categorías
  - Pedidos
 
@@ -14,7 +15,7 @@ La base de datos almacena:
 API Express que se encargará de realizar las consultas a la base de datos.
 
 ## Cliente
-El cliente solo deberá enviar y recibir peticiones al servidor en formato JSON
-Habrá un sistema de admin que solo se verá si el usuario consta como administrador.
+El cliente deberá enviar y recibir peticiones al servidor en formato JSON
+Habrá un sistema de admin que solo se verá si el usuario consta como administrador. 
 ## Base de datos
-Usaré Firebase Realtime database por su simplicidad.
+Usaré Firebase Realtime database por su simplicidad y extensa documentación.
