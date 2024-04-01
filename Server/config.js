@@ -7,5 +7,6 @@ module.exports = {
     messagingSenderId: "140919238944",
     appId: "1:140919238944:web:8e6d7990195d47e358a745",
     measurementId: "G-61ZLTTWD7Y"
-  }
+  },
+  secretWord: 'HayQuePensarEnAlgoDiferente'
 };
