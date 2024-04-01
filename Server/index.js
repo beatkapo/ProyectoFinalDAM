@@ -65,7 +65,7 @@ async function loginUser(user) {
         throw error;
     }
 }
-//Metodos relacionados con gestionar los productos de la base de datos
+//Metodos relacionados con gestionar los productos y pedidos de la base de datos
 async function getProductos() {
     try {
         const q = query(collection(db, 'productos'));
@@ -186,11 +186,27 @@ async function getProductoIngredientes(producto){
 }
 //Rutas de la API
 expressApp.post('/api/register', (req, res) => {
-    registerUser(req.body).then((userId) => {
-        res.json({ error: false, id: userId });
+    // Comprobar si ya existe el usuario en la base de datos
+    const user = req.body;
+    const q = query(collection(db, 'usuarios'), where('email', '==', user.email));
+    getDocs(q).then((querySnapshot) => {
+        if (querySnapshot.empty) {
+            registerUser(user).then((data) => {
+                console.log(user.email + " registrado correctamente.");
+                response = { error: false, message: 'Usuario registrado correctamente', id: data };
+                res.json(response);
+            }).catch((error) => {
+                res.status(500).send('Error registrando usuario: ' + error);
+            });
+        } else {
+            data = { error: true, message: 'El usuario ya existe' };
+            res.status(400).json(data);
+        }
     }).catch((error) => {
-        res.status(500).json({ error: true, message: 'Error registrando usuario: ' + error });
+        res.status(500).send('Error comprobando usuario: ' + error);
     });
+
+    
 });
 expressApp.post('/api/login', (req, res) => {
     loginUser(req.body).then((data) => {
