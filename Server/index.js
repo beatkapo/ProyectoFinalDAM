@@ -267,6 +267,39 @@ async function getIngredienteAlergenos(idIngrediente){
     }
 
 }
+async function getUsuarios(){
+    try {
+        const q = query(collection(db, 'usuarios'));
+        const querySnapshot = await getDocs(q);
+        const users = [];
+        querySnapshot.forEach((doc) => {
+            data = doc.data();
+            data.id = doc.id;
+            users.push(data);
+        });
+        return users;
+    } catch (error) {
+        console.error('Error obteniendo usuarios:', error);
+        throw error;
+    }
+}
+async function getUsuarioByID(id){
+    try {
+        doc(db, 'usuarios', id).get().then((doc) => {
+            if (doc.exists()) {
+                user = doc.data();
+                user.id = doc.id;
+            } else {
+                console.log('No such document!');
+            }
+        });
+        return user;
+    } catch (error) {
+        console.error('Error obteniendo usuarios por ID:', error);
+        throw error;
+    }
+
+}
 //Rutas de la API
 expressApp.post('/api/register', (req, res) => {
     // Comprobar si ya existe el usuario en la base de datos
@@ -375,9 +408,36 @@ expressApp.get('/api/pedidos', (req, res) => {
 
     });
 });
+expressApp.get('/api/usuarios',(req,res)=>{
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const users = await getUsuarios();
+        res.json(users);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
 
+    });
+});
+expressApp.get('/api/usuarios/:id',(req,res)=>{
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const user = await getUsuarioByID(req.params.id);
+        res.json(user);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
 
+    });
+});
+expressApp.get('/api/usuarios/:id/pedidos',(req,res)=>{
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const orders = await getPedidoByClienteID(req.params.id);
+        res.json(orders);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
 
+    });
+});
 expressApp.listen(3000, () => {
     console.log('Server running on port ' + PORT);
 });
