@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'es.beatkapo.app'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "es.beatkapo.app"
@@ -36,4 +36,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12' //or v. 1.16.2 in your case.
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

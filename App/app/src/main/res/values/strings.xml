@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">proyecto_final_DAM</string>
+    <string name="registrar">Registrar</string>
+    <string name="iniciarSesion">Iniciar sesión</string>
+    <string name="emailHint">Correo electrónico</string>
+    <string name="passwordHint">Contraseña</string>
+    <string name="forgotPassword">¿Olvidó su contraseña?</string>
 </resources>
