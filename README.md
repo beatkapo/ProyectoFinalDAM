@@ -11,7 +11,7 @@ La base de datos almacena:
  - Categorías
  - Pedidos
 
-## Servidor
+## Servidor [->](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Server/index.js)
 API Express que se encargará de realizar las consultas a la base de datos.
 ### Endpoints
 #### POST /api/register
@@ -55,14 +55,14 @@ Se necesita ser trabajador o administrador y estar logueado. **Todavia sin imple
 Devuelve todos los pedidos que ha realizado un usuario.
 Se necesita ser trabajador o administrador y estar logueado. **Todavia sin implementar roles, responde a cualquier usuario**
 
-## Cliente
+## Cliente [->](https://github.com/beatkapo/ProyectoFinalDAM/tree/main/App)
 El cliente deberá enviar y recibir peticiones al servidor en formato JSON
 Habrá un sistema de admin que solo se verá si el usuario consta como administrador. 
 ## Base de datos
 Usaré Firebase Realtime database por su simplicidad y extensa documentación.
 ## Herramientas
 (02/04/2024)
-**importar_excel_firestore.py** ha sido una idea que se me ha ocurrido al ver lo tedioso que era importar un par de datos a cada colección de la base de datos. Este script Python abre una ventana que deja seleccionar un fichero con extension "xlsx", automaticamente lo procesa y e importa los datos en Firestore.
+**[importar_excel_firestore.py](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Herramientas/importar_excel_firestore.py)** ha sido una idea que se me ha ocurrido al ver lo tedioso que era importar un par de datos a cada colección de la base de datos. Este script Python abre una ventana que deja seleccionar un fichero con extension "xlsx", automaticamente lo procesa y e importa los datos en Firestore.
 Toma el nombre de la hoja para referenciar el nombre de la colección, por lo que puedes tener toda una base de datos en un archivo e importarla.
 La primera fila se refiere al nombre de los campos, las siguientes representan los datos del documento.
 Cualquier fallo lo notifica en un label, en caso de exito también y se cierra a los pocos segundos.
