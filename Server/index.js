@@ -54,11 +54,13 @@ async function loginUser(user) {
         }
         const doc = querySnapshot.docs[0];
         const userData = doc.data();
+        userData.id = doc.id;
         if (userData.password === user.password) {
             data = { error: false, token: await generateToken(userData) };
         } else {
             data = { error: true, message: 'Contraseña incorrecta' };
         }
+        console.log('Usuario con id '+userData.id+' logueado:', userData.email);
         return data;
     } catch (error) {
         console.error('Error interno al iniciar sesión:', error);
@@ -80,13 +82,32 @@ async function getProductos() {
         throw error;
     }
 }
+async function getProductoByID(id) {
+    try {
+        doc(db, 'productos', id).get().then((doc) => {
+            if (doc.exists()) {
+                product = doc.data();
+                product.id = doc.id;
+            } else {
+                console.log('No such document!');
+            }
+        });
+        return product;
+    } catch (error) {
+        console.error('Error obteniendo productos por ID:', error);
+        throw error;
+    }
+
+}
 async function getIngredientes(){
     try {
         const q = query(collection(db, 'ingredientes'));
         const querySnapshot = await getDocs(q);
         const ingredients = [];
         querySnapshot.forEach((doc) => {
-            ingredients.push(doc.data());
+            data = doc.data();
+            data.id = doc.id;
+            ingredients.push(data);
         });
         return ingredients;
     } catch (error) {
@@ -100,6 +121,7 @@ async function getIngredienteByID(id){
         doc(db, 'ingredientes', id).get().then((doc) => {
             if (doc.exists()) {
                 ingredient = doc.data();
+                ingredient.id = doc.id;
             } else {
                 console.log('No such document!');
             }
@@ -116,7 +138,9 @@ async function getCategorias(){
         const querySnapshot = await getDocs(q);
         const categories = [];
         querySnapshot.forEach((doc) => {
-            categories.push(doc.data());
+            data = doc.data();
+            data.id = doc.id;
+            categories.push(data);
         });
         return categories;
     } catch (error) {
@@ -131,7 +155,9 @@ async function getPedidos(){
         const querySnapshot = await getDocs(q);
         const orders = [];
         querySnapshot.forEach((doc) => {
-            orders.push(doc.data());
+            data = doc.data();
+            data.id = doc.id;
+            orders.push(data);
         });
         return orders;
     } catch (error) {
@@ -139,13 +165,32 @@ async function getPedidos(){
         throw error;
     }
 }
+async function getPedidoByClienteID(clienteID){
+    try {
+        const q = query(collection(db, 'pedidos'), where('cliente', '==', clienteID));
+        const querySnapshot = await getDocs(q);
+        const orders = [];
+        querySnapshot.forEach((doc) => {
+            data = doc.data();
+            data.id = doc.id;
+            orders.push(data);
+        });
+        return orders;
+    } catch (error) {
+        console.error('Error obteniendo pedidos por cliente:', error);
+        throw error;
+    }
+
+}
 async function getAlergenos(){
     try {
         const q = query(collection(db, 'alergenos'));
         const querySnapshot = await getDocs(q);
         const allergens = [];
         querySnapshot.forEach((doc) => {
-            allergens.push(doc.data());
+            data = doc.data();
+            data.id = doc.id;
+            allergens.push(data);
         });
         return allergens;
     } catch (error) {
@@ -153,13 +198,32 @@ async function getAlergenos(){
         throw error;
     }
 }
-async function getProductoByCategoria(categoria){
+async function getAlergenoByID(id){
+    try {
+        doc(db, 'alergenos', id).get().then((doc) => {
+            if (doc.exists()) {
+                allergen = doc.data();
+                allergen.id = doc.id;
+            } else {
+                console.log('No such document!');
+            }
+        });
+        return allergen;
+    } catch (error) {
+        console.error('Error obteniendo alergenos por ID:', error);
+        throw error;
+    }
+
+}
+async function getProductosByCategoria(categoria){
     try {
         const q = query(collection(db, 'productos'), where('categoria', '==', categoria));
         const querySnapshot = await getDocs(q);
         const products = [];
         querySnapshot.forEach((doc) => {
-            products.push(doc.data());
+            data = doc.data();
+            data.id = doc.id;
+            products.push(data);
         });
         return products;
     } catch (error) {
@@ -176,6 +240,7 @@ async function getProductoIngredientes(producto){
         const ingredients = [];
         querySnapshot.forEach((doc) => {//Para cada documento se hace una consulta a la coleccion de ingredientes para obtener el ingrediente
             const ingredient = getIngredienteByID(doc.data().idIngrediente);
+            ingredient.id = doc.id;
             ingredients.push(ingredient);
         });
         return ingredients;
@@ -183,6 +248,24 @@ async function getProductoIngredientes(producto){
         console.error('Error obteniendo ingredientes por producto:', error);
         throw error;
     }
+}
+async function getIngredienteAlergenos(idIngrediente){
+    //La relacion entre ingredientes y alergenos se hace a traves de la coleccion "ingrediente_alergeno"
+    try {
+        const q = query(collection(db, 'ingredientes_alergenos'), where('idIngrediente', '==', idIngrediente));
+        const querySnapshot = await getDocs(q);
+        const alergenos = [];
+        querySnapshot.forEach((doc) => {//Para cada documento se hace una consulta a la coleccion de alergenos
+            const alergeno = getAlergenoByID(doc.data().idAlergeno);
+            alergeno.id = doc.id;
+            alergenos.push(alergeno); 
+        });
+        return alergenos;
+    } catch (error) {
+        console.error('Error obteniendo alergenos por ingrediente:', error);
+        throw error;
+    }
+
 }
 //Rutas de la API
 expressApp.post('/api/register', (req, res) => {
@@ -226,6 +309,74 @@ expressApp.get('/api/productos', (req, res) => {
 
     });
 });
+expressApp.get('/api/productos/:id', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const product = await getProductoByID(req.params.id);
+        res.json(product);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+expressApp.get('/api/ingredientes', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const ingredients = await getIngredientes();
+        res.json(ingredients);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+expressApp.get('/api/ingredientes/:id', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const ingredient = await getIngredienteByID(req.params.id);
+        res.json(ingredient);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+expressApp.get('/api/categorias', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const categories = await getCategorias();
+        res.json(categories);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+expressApp.get('/api/categorias/:id/productos', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const products = await getProductosByCategoria(req.params.id);
+        res.json(products);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+expressApp.get('/api/pedidos', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const user = decoded.user;
+        let orders = [];
+        if(user.userType = 0){
+            orders = await getPedidoByClienteID(user.id);
+        }else{
+            orders = await getPedidos();
+        }
+        res.json(orders);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
+
+
 
 expressApp.listen(3000, () => {
     console.log('Server running on port ' + PORT);
