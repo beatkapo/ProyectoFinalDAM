@@ -59,7 +59,7 @@ Se necesita ser trabajador o administrador y estar logueado. **Todavia sin imple
 El cliente deberá enviar y recibir peticiones al servidor en formato JSON
 Habrá un sistema de admin que solo se verá si el usuario consta como administrador. 
 ## Base de datos
-Usaré Firebase Realtime database por su simplicidad y extensa documentación.
+Usaré Firebase Realtime database por su simplicidad y extensa [documentación](https://firebase.google.com/docs/firestore?hl=es).
 ## Herramientas
 (02/04/2024)
 **[importar_excel_firestore.py](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Herramientas/importar_excel_firestore.py)** ha sido una idea que se me ha ocurrido al ver lo tedioso que era importar un par de datos a cada colección de la base de datos. Este script Python abre una ventana que deja seleccionar un fichero con extension "xlsx", automaticamente lo procesa y e importa los datos en Firestore.
