@@ -4,7 +4,7 @@ public class NodeServer {
 
     public static String getServer()
     {
-        return "http://localhost:3000";
+        return "http://192.168.0.22:3000";
     }
 
 }

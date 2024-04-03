@@ -84,6 +84,7 @@ public class ServiceUtils {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             if (bufInput != null) {
                 try {

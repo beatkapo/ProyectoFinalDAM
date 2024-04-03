@@ -49,18 +49,18 @@ async function loginUser(user) {
         const querySnapshot = await getDocs(q);
         // Comprueba que la contraseña coincide
         if (querySnapshot.empty) {
-            data = { error: true, message: 'Usuario no encontrado' };
+            data = { error: true , errorCode: 0 , message: 'Usuario no encontrado' };
             return data;
         }
         const doc = querySnapshot.docs[0];
         const userData = doc.data();
         userData.id = doc.id;
         if (userData.password === user.password) {
+            console.log('Usuario con id '+userData.id+' logueado:', userData.email);
             data = { error: false, token: await generateToken(userData) };
         } else {
-            data = { error: true, message: 'Contraseña incorrecta' };
+            data = { error: true, errorCode: 1 ,message: 'Contraseña incorrecta' };
         }
-        console.log('Usuario con id '+userData.id+' logueado:', userData.email);
         return data;
     } catch (error) {
         console.error('Error interno al iniciar sesión:', error);
@@ -304,6 +304,7 @@ async function getUsuarioByID(id){
 expressApp.post('/api/register', (req, res) => {
     // Comprobar si ya existe el usuario en la base de datos
     const user = req.body;
+    console.log(user);
     const q = query(collection(db, 'usuarios'), where('email', '==', user.email));
     getDocs(q).then((querySnapshot) => {
         if (querySnapshot.empty) {
@@ -326,7 +327,6 @@ expressApp.post('/api/register', (req, res) => {
 });
 expressApp.post('/api/login', (req, res) => {
     loginUser(req.body).then((data) => {
-        console.log(req.body.email + " logueado correctamente.");
         res.json(data);
     }).catch((error) => {
         res.status(500).send('Error iniciando sesión: ' + error);
