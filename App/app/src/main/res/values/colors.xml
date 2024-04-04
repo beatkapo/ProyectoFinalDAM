@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Color of the year 2022 -->
+    <color name="dark_veri_peri">#202036</color>
+    <color name="secondary_dark_veri_peri">#2C2D4A</color>
+    <color name="light_veri_peri">#8E90ED</color>
+    <color name="veri_peri">#6667AB</color>
+
 </resources>
