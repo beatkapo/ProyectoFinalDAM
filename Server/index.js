@@ -74,7 +74,9 @@ async function getProductos() {
         const querySnapshot = await getDocs(q);
         const products = [];
         querySnapshot.forEach((doc) => {
-            products.push(doc.data());
+            product = doc.data();
+            product.id = doc.id;
+            products.push(product);
         });
         return products;
     } catch (error) {

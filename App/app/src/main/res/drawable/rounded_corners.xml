@@ -3,4 +3,5 @@
     android:shape="rectangle">
     <corners android:radius="8dp" /> <!-- Ajusta el radio según sea necesario para redondear los bordes -->
     <solid android:color="@android:color/white" /> <!-- Puedes cambiar el color de fondo si lo deseas -->
+
 </shape>

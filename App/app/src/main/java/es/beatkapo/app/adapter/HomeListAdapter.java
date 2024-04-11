@@ -1,11 +1,13 @@
 package es.beatkapo.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import es.beatkapo.app.ProductoActivity;
 import es.beatkapo.app.R;
 import es.beatkapo.app.dto.ProductoDTO;
 import es.beatkapo.app.model.Producto;
@@ -50,12 +53,14 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
         ImageView imagen;
         TextView nombre, descripcion, precio;
+        LinearLayout cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imagen = itemView.findViewById(R.id.cardView_img);
             nombre = itemView.findViewById(R.id.cardView_title);
             descripcion = itemView.findViewById(R.id.cardView_description);
             precio = itemView.findViewById(R.id.cardView_price);
+            cardView = itemView.findViewById(R.id.layoutCardview);
         }
 
         public void bindData(ProductoDTO producto) {
@@ -66,6 +71,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 Bitmap bitmap = Utilidades.base64ToBitmap(producto.getImagen());
                 imagen.setImageBitmap(bitmap);
             }
+            cardView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ProductoActivity.class);
+                intent.putExtra("idProducto", producto.getId());
+                context.startActivity(intent);
+            });
         }
     }
 }

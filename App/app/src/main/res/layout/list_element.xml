@@ -10,17 +10,19 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/layoutCardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:clickable="true"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:padding="6dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="6dp">
 
             <ImageView
                 android:id="@+id/cardView_img"
@@ -32,47 +34,50 @@
                 android:src="@drawable/pizza" />
 
             <LinearLayout
+                android:id="@+id/cardView_layoutInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_toEndOf="@+id/cardView_img"
-                android:id="@+id/cardView_layoutInfo">
+                android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/cardView_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cardView_title"
                     android:text="Pizza"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:id="@+id/cardView_description"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cardView_description"
-                    android:text="Pizza de pepperoni que lo flipas pedito si me la como me desmayo tu que harias maquinon a saber verdad pos ya ves yo pienso lo mismo colega esto es uno movideta tronquetas."
-                    android:maxLines="3"
                     android:ellipsize="end"
-                    android:textSize="11sp"/>
+                    android:maxLines="3"
+                    android:text="Pizza de pepperoni que lo flipas pedito si me la como me desmayo tu que harias maquinon a saber verdad pos ya ves yo pienso lo mismo colega esto es uno movideta tronquetas."
+                    android:textSize="11sp" />
+
                 <LinearLayout
+                    android:id="@+id/cardView_layoutAllergens"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/cardView_layoutAllergens">
+                    android:orientation="horizontal">
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
             <TextView
+                android:id="@+id/cardView_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cardView_price"
-                android:text="10€"
-                android:textSize="13sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
                 android:layout_toEndOf="@id/cardView_layoutInfo"
                 android:gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"/>
+                android:text="10€"
+                android:textSize="13sp" />
         </RelativeLayout>
     </LinearLayout>
 
