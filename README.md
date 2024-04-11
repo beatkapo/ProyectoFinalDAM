@@ -54,6 +54,15 @@ Se necesita ser trabajador o administrador y estar logueado. **Todavia sin imple
 #### GET /api/usuarios/:id/pedidos
 Devuelve todos los pedidos que ha realizado un usuario.
 Se necesita ser trabajador o administrador y estar logueado. **Todavia sin implementar roles, responde a cualquier usuario**
+#### POST /api/usuarios/img **Todavia sin implementar**
+Recibe una imagen en Base64 y la guarda en el sistema. Devuelve la url donde se guarda.
+Se necesita estar logueado.
+#### GET /api/usuarios/img **Todavia sin implementar**
+Devuelve la imagen del usuario en Base64
+Se necesita estar logueado.
+#### GET /api/usuarios/:id/img ** Todavia sin implementar**
+Devuelve la imagen del usuario con id pasada por parametro.
+Se necesita estar logueado.
 
 ## Cliente [->](https://github.com/beatkapo/ProyectoFinalDAM/tree/main/App)
 El cliente deberá enviar y recibir peticiones al servidor en formato JSON
