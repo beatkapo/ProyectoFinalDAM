@@ -326,6 +326,7 @@ expressApp.post('/api/register', (req, res) => {
     
 });
 expressApp.post('/api/login', (req, res) => {
+    console.log("Peticion de login.");
     loginUser(req.body).then((data) => {
         res.json(data);
     }).catch((error) => {

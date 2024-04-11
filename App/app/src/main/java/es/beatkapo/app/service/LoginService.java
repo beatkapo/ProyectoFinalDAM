@@ -1,5 +1,7 @@
 package es.beatkapo.app.service;
 
+import android.util.Log;
+
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.response.LoginResponse;
 import es.beatkapo.app.util.NodeServer;
