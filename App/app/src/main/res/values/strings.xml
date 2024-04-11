@@ -29,11 +29,12 @@
     <string name="registerQuestionTitle">Correo no registrado</string>
     <string name="registerQuestionMessage">El correo no se encuentra entre los registrados.\n¿Quieres registrarte ahora?</string>
     <string name="cancel">Cancelar</string>
-    <string name="titleHome">Cabanes</string>
+    <string name="titleCabecera">Cabanes</string>
     <string name="menu_home">Inicio</string>
     <string name="menu_orders">Pedidos</string>
     <string name="menu_favorites">Favoritos</string>
     <string name="menu_profile">Perfil</string>
     <string name="menu_opinions">Reseñas</string>
     <string name="menu_settings">Ajustes</string>
+    <string name="comprar_producto">Añadir al carrito</string>
 </resources>

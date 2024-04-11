@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         btnMenu = findViewById(R.id.menuButton_home);
         drawerLayout.closeDrawer(GravityCompat.END);
         homeLayout = findViewById(R.id.homeLayout);
+
         loadData();
     }
     public void showMenu(View v){
