@@ -17,6 +17,54 @@
         android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
+
+    <LinearLayout
+        android:id="@+id/titleLayout_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bottom_corners"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/logoHome"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="10"
+                android:src="@drawable/pizzeria_cabanes_white" />
+
+            <TextView
+                android:id="@+id/title_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="80"
+                android:text="@string/titleHome"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/menuButton_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="10"
+                android:background="#00FFFFFF"
+                android:onClick="showMenu"
+                android:scaleType="center"
+                android:src="@drawable/list"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -31,46 +79,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_bottom_corners"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/logoHome"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="10"
-                    android:src="@drawable/pizzeria_cabanes_white" />
-
-                <TextView
-                    android:id="@+id/title_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="80"
-                    android:text="@string/titleHome"
-                    android:textSize="24sp" />
-
-                <ImageButton
-                    android:id="@+id/menuButton_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="10"
-                    android:background="#00FFFFFF"
-                    android:onClick="showMenu"
-                    android:scaleType="center"
-                    android:src="@drawable/list"
-                    app:tint="@color/white" />
-            </LinearLayout>
 
         </LinearLayout>
 
