@@ -24,7 +24,7 @@ async function generateToken(user) {
 }
 async function verifyToken(token) {
     try {
-        const decoded = jwt.verify(token, secretWord);
+        const decoded = jwt.verify(token.substring(7), secretWord);
         return decoded;
     } catch (error) {
         console.error('Error verificando token:', error);
@@ -333,12 +333,15 @@ expressApp.post('/api/login', (req, res) => {
     });
 });
 expressApp.get('/api/productos', (req, res) => {
+    console.log('Peticion entrante /api/productos');
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         const products = await getProductos();
-        res.json(products);
+        data = { error: false, productos: products };
+        res.json(data);
     }).catch((error) => {
-        res.status(401).send('Error verificando token: ' + error);
+        data = { error: true, message: 'Error verificando token: ' + error };
+        res.status(401).json(data);
 
     });
 });
@@ -373,12 +376,15 @@ expressApp.get('/api/ingredientes/:id', (req, res) => {
     });
 });
 expressApp.get('/api/categorias', (req, res) => {
+    console.log('Peticion entrante /api/categorias');
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         const categories = await getCategorias();
-        res.json(categories);
+        data = { error: false, categorias: categories };
+        res.json(data);
     }).catch((error) => {
-        res.status(401).send('Error verificando token: ' + error);
+        data = { error: true, message: 'Error verificando token: ' + error };
+        res.status(401).json(data);
 
     });
 });
@@ -386,10 +392,11 @@ expressApp.get('/api/categorias/:id/productos', (req, res) => {
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         const products = await getProductosByCategoria(req.params.id);
-        res.json(products);
+        data = { error: false, products: products };
+        res.json(data);
     }).catch((error) => {
-        res.status(401).send('Error verificando token: ' + error);
-
+        data = { error: true, message: 'Error verificando token: ' + error };
+        res.status(401).json(data);
     });
 });
 expressApp.get('/api/pedidos', (req, res) => {

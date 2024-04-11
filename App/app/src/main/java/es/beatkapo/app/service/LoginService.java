@@ -7,7 +7,7 @@ import es.beatkapo.app.util.NodeServer;
 public class LoginService extends BaseService<Usuario,LoginResponse> {
     public void login(Usuario usuario, OnSuccessCallback onSuccess, OnFailureCallback onFailure) {
         String url = NodeServer.getServer()+"/api/login";
-        executeRequest(url, usuario, onSuccess, onFailure);
+        executeRequest(url, usuario,"POST", onSuccess, onFailure);
     }
 
     @Override

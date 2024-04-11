@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,12 +46,13 @@ public class Utilidades {
             Log.e("showAlert", "La actividad es null");
             return;
         }
+
         activity.runOnUiThread(() -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle(title);
             builder.setMessage(message);
             builder.setPositiveButton(positiveButton, positiveListener);
-            if (negativeButton != null && negativeListener != null) {
+            if (negativeButton != null) {
                 builder.setNegativeButton(negativeButton, negativeListener);
             }
             AlertDialog dialog = builder.create();
@@ -58,6 +64,17 @@ public class Utilidades {
                 System.out.println("El diálogo no se ha creado correctamente");
             }
         });
+    }
+    public static Bitmap base64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedString);
+        return BitmapFactory.decodeStream(inputStream);
+    }
+    public static String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }
 

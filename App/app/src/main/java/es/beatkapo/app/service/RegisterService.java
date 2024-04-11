@@ -8,7 +8,7 @@ import es.beatkapo.app.util.NodeServer;
 public class RegisterService extends BaseService<Usuario, RegisterResponse> {
     public void register(Usuario usuario, OnSuccessCallback onSuccess, OnFailureCallback onFailure) {
         String url = NodeServer.getServer()+"/api/register";
-        executeRequest(url, usuario, onSuccess, onFailure);
+        executeRequest(url, usuario,"POST", onSuccess, onFailure);
     }
 
     @Override

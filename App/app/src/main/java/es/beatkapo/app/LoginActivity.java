@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.response.LoginResponse;
 import es.beatkapo.app.service.LoginService;
+import es.beatkapo.app.util.ServiceUtils;
 import es.beatkapo.app.util.Utilidades;
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,12 +66,15 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
                 }else{
+
                     //Guardar token en SharedPreferences
                     String token = loginResponse.getToken();
                     SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.apply();
+                    //Aplicar token en ServiceUtils
+                    ServiceUtils.setToken(token);
                     //Ir a la pantalla principal
                     Intent intent = new Intent(this, HomeActivity.class);
                     startActivity(intent);

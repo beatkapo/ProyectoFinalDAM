@@ -11,8 +11,9 @@ public class Usuario {
     private String direccion1;
     private String direccion2;
     private TipoUsuario tipoUsuario;
+    private String imagen;
 
-    public Usuario(String id, String nombre, String apellidos, String telefono1, String telefono2, String email, String password, String direccion1, String direccion2, TipoUsuario tipoUsuario) {
+    public Usuario(String id, String nombre, String apellidos, String telefono1, String telefono2, String email, String password, String direccion1, String direccion2, TipoUsuario tipoUsuario, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -23,9 +24,18 @@ public class Usuario {
         this.direccion1 = direccion1;
         this.direccion2 = direccion2;
         this.tipoUsuario = tipoUsuario;
+        this.imagen = imagen;
     }
 
     public Usuario() {
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getId() {

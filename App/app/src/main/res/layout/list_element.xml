@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/cardView_img"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pizza" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@+id/cardView_img"
+                android:id="@+id/cardView_layoutInfo">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cardView_title"
+                    android:text="Pizza"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cardView_description"
+                    android:text="Pizza de pepperoni que lo flipas pedito si me la como me desmayo tu que harias maquinon a saber verdad pos ya ves yo pienso lo mismo colega esto es uno movideta tronquetas."
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:textSize="11sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/cardView_layoutAllergens">
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardView_price"
+                android:text="10€"
+                android:textSize="13sp"
+                android:layout_toEndOf="@id/cardView_layoutInfo"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
