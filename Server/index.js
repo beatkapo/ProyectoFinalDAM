@@ -27,8 +27,8 @@ async function verifyToken(token) {
         const decoded = jwt.verify(token.substring(7), secretWord);
         return decoded;
     } catch (error) {
-        console.error('Error verificando token:', error);
-        throw error;
+        const data = { error: true, message: 'Token inválido' };
+        throw data;
     }
 }
 async function registerUser(user) {
@@ -72,12 +72,19 @@ async function getProductos() {
     try {
         const q = query(collection(db, 'productos'));
         const querySnapshot = await getDocs(q);
-        const products = [];
-        querySnapshot.forEach((doc) => {
-            product = doc.data();
+        
+        const productsPromises = querySnapshot.docs.map(async (doc) => {
+            const product = doc.data();
             product.id = doc.id;
-            products.push(product);
+            const ingredientes = await getProductoIngredientes(product.id);
+            product.ingredientes = ingredientes;
+            const categoria = await getCategoriaByID(product.categoria);
+            product.categoria = categoria;
+            return product;
         });
+
+        const products = await Promise.all(productsPromises);
+
         return products;
     } catch (error) {
         console.error('Error obteniendo productos:', error);
@@ -266,10 +273,10 @@ async function getProductosByCategoria(categoria){
     }
 
 }
-async function getProductoIngredientes(producto){
+async function getProductoIngredientes(idProducto){
     //La relacion entre productos e ingredientes se hace a traves de la coleccion "ingrediente_producto"
     try {
-        const q = query(collection(db, 'ingredientes_productos'), where('idProducto', '==', producto));
+        const q = query(collection(db, 'ingredientes_productos'), where('idProducto', '==', idProducto));
         const querySnapshot = await getDocs(q);
         const ingredientsPromises = querySnapshot.docs.map(async (doc) => {
             const relacion = {...doc.data()}

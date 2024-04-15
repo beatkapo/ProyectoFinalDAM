@@ -16,6 +16,9 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import es.beatkapo.app.model.Producto;
+import es.beatkapo.app.response.ProductoResponse;
+import es.beatkapo.app.service.GetProductoById;
+import es.beatkapo.app.util.Utilidades;
 
 public class ProductoActivity extends AppCompatActivity {
     private Producto producto;
@@ -57,7 +60,22 @@ public class ProductoActivity extends AppCompatActivity {
     }
 
     private void loadProducto() {
+        GetProductoById service = new GetProductoById();
+        service.getProductoById(idProducto, response -> {
+            ProductoResponse dto = (ProductoResponse) response;
+            producto = dto.getProducto();
+            nombre.setText(producto.getNombre());
 
+            String precioString = String.format("%.2f€", producto.getPrecio());
+            precio.setText(precioString);
+            descripcion.setText(producto.getDescripcion());
+            cantidadProducto.setText(String.valueOf(cantidad));
+            setVisibility(false);
+        }, error -> {
+            Utilidades.showAlert(this, getString(R.string.internalErrorTitle), error.getMessage(), getString(R.string.accept), (d,w) ->{
+                finish();
+            }, null, null);
+        });
     }
 
     private void setVisibility(boolean isLoading){

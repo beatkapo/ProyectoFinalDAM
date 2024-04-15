@@ -3,6 +3,7 @@ package es.beatkapo.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.beatkapo.app.ProductoActivity;
 import es.beatkapo.app.R;
-import es.beatkapo.app.dto.ProductoDTO;
 import es.beatkapo.app.model.Producto;
+import es.beatkapo.app.model.Alergeno;
 import es.beatkapo.app.util.Utilidades;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>{
-    private List<ProductoDTO> productos;
+    private List<Producto> productos;
     private LayoutInflater inflater;
     private Context context;
 
-    public HomeListAdapter(List<ProductoDTO> productos, Context context) {
+    public HomeListAdapter(List<Producto> productos, Context context) {
         this.productos = productos;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -54,6 +56,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         ImageView imagen;
         TextView nombre, descripcion, precio;
         LinearLayout cardView;
+        LinearLayout alergenosLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imagen = itemView.findViewById(R.id.cardView_img);
@@ -61,9 +64,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             descripcion = itemView.findViewById(R.id.cardView_description);
             precio = itemView.findViewById(R.id.cardView_price);
             cardView = itemView.findViewById(R.id.layoutCardview);
+            alergenosLayout = itemView.findViewById(R.id.cardView_layoutAllergens);
         }
 
-        public void bindData(ProductoDTO producto) {
+        public void bindData(Producto producto) {
+            Log.e("HomeListAdapter", "Producto: " + producto.getNombre());
             nombre.setText(producto.getNombre());
             descripcion.setText(producto.getDescripcionCorta());
             precio.setText(String.valueOf(producto.getPrecio()));
@@ -76,6 +81,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 intent.putExtra("idProducto", producto.getId());
                 context.startActivity(intent);
             });
+            //Añadir un ImageView por cada alergeno en el layout alergenosLayout
+            List<Alergeno> alergenos = producto.getIngredientes().stream()
+                    .map(ingrediente -> ingrediente.getAlergenos())
+                    .flatMap(List::stream)
+                    .distinct()
+                    .collect(Collectors.toList());
+            for (Alergeno alergeno : alergenos) {
+                ImageView imageView = new ImageView(context);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                int idImagen = Utilidades.getAlergenoImage(alergeno.getId());
+                if(idImagen > -1){
+                    imageView.setImageResource(idImagen);
+                    alergenosLayout.addView(imageView);
+
+                }
+            }
         }
     }
 }

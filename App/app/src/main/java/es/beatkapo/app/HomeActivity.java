@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import es.beatkapo.app.adapter.HomeListAdapter;
-import es.beatkapo.app.dto.ProductoDTO;
-import es.beatkapo.app.model.Categoria;
 import es.beatkapo.app.model.Producto;
+import es.beatkapo.app.model.Categoria;
 import es.beatkapo.app.response.CategoriasResponse;
 import es.beatkapo.app.response.ProductosResponse;
 import es.beatkapo.app.service.GetCategoriasService;
@@ -33,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private ImageButton btnMenu;
     private LinearLayout homeLayout;
     private List<Categoria> categorias;
-    private List<ProductoDTO> productos;
+    private List<Producto> productos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         homeLayout = findViewById(R.id.homeLayout);
 
         loadData();
+        Log.e("HomeActivity", "Data loaded");
     }
     public void showMenu(View v){
         drawerLayout.openDrawer(GravityCompat.END);
@@ -108,8 +108,8 @@ public class HomeActivity extends AppCompatActivity {
 
             RecyclerView recyclerView = new RecyclerView(this);
             recyclerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            List<ProductoDTO> productosCategoria = productos.stream()
-                    .filter(producto -> producto.getCategoria().equals(categoria.getId()))
+            List<Producto> productosCategoria = productos.stream()
+                    .filter(producto -> producto.getCategoria().getId().equals(categoria.getId()))
                     .collect(Collectors.toList());
             HomeListAdapter adapter = new HomeListAdapter(productosCategoria, this);
             recyclerView.setAdapter(adapter);
