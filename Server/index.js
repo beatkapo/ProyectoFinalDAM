@@ -134,12 +134,11 @@ async function getIngredienteByID(id){
             ingredient.id = docSnap.id;
             console.log('ID ingrediente antes de alergenos',ingredient.id);
             console.log('Antes de treure alergenos:',ingredient);
-            //Si utilizamos await, la funcion se queda esperando a que se resuelva la promesa.
-            //Si no utilizamos await, la funcion continua y se resuelve la promesa en segundo plano.
-            const alergenos = await getIngredienteAlergenos(ingredient.id); 
+            
+            const alergenos = await getAlergenosIngrediente(ingredient.id); 
             console.log('ID ingrediente despues de alergenos',ingredient.id);
             console.log('Despres de treure alergenos:',ingredient);
-            
+            console.log('Alergenos:',alergenos);
             ingredient.alergenos = alergenos;
             return ingredient;
         }else{
@@ -235,15 +234,15 @@ async function getAlergenos(){
 }
 async function getAlergenoByID(id){
     try {
-        doc(db, 'alergenos', id).get().then((doc) => {
-            if (doc.exists()) {
-                allergen = doc.data();
-                allergen.id = doc.id;
-            } else {
-                console.log('No such document!');
-            }
-        });
-        return allergen;
+        const docRef = doc(db, 'alergenos', id);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+            allergen = docSnap.data();
+            allergen.id = docSnap.id;
+            return allergen;
+        }else{
+            return { error: true, message: 'Alergeno no encontrado' };
+        }
     } catch (error) {
         console.error('Error obteniendo alergenos por ID:', error);
         throw error;
@@ -274,7 +273,7 @@ async function getProductoIngredientes(producto){
         const querySnapshot = await getDocs(q);
         const ingredientsPromises = querySnapshot.docs.map(async (doc) => {
             const relacion = {...doc.data()}
-            console.log('Relacion; ',relacion);
+            console.log('Relacion: ',relacion);
             return await getIngredienteByID(relacion.idIngrediente);
         });
         const ingredients = await Promise.all(ingredientsPromises);
@@ -285,12 +284,13 @@ async function getProductoIngredientes(producto){
         throw error;
     }
 }
-async function getIngredienteAlergenos(idIngrediente){
+async function getAlergenosIngrediente(idIngrediente){
     //La relacion entre ingredientes y alergenos se hace a traves de la coleccion "ingrediente_alergeno"
     console.log('ID del ingrediente: ',idIngrediente)
     try {
-        const q = query(collection(db, 'ingredientes_alergenos'), where('idIngrediente', '==', idIngrediente));
+        const q = query(collection(db, 'alergenos_ingredientes'), where('idIngrediente', '==', idIngrediente));
         const querySnapshot = await getDocs(q);
+        console.log('QuerySnapshot:',querySnapshot.docs);
         const alergenosPromises = querySnapshot.docs.map(async (doc) => {
             const relacion = doc.data();
             return getAlergenoByID(relacion.idAlergeno);
