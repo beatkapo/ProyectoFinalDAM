@@ -20,6 +20,11 @@ import java.security.NoSuchAlgorithmException;
 import es.beatkapo.app.R;
 
 public class Utilidades {
+    public static final int HOME = R.id.nav_home;
+    public static final int ORDERS = R.id.nav_orders;
+    public static final int OPINIONS = R.id.nav_opinions;
+    public static final int SETTINGS = R.id.nav_settings;
+    public static final int ADMIN = R.id.nav_admin;
     public static String encryptPassword(String password) {
         try {
             // Crear una instancia de MessageDigest con el algoritmo SHA-256

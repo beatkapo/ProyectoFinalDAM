@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import es.beatkapo.app.ProductoActivity;
 import es.beatkapo.app.R;
+import es.beatkapo.app.model.Ingrediente;
 import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Alergeno;
 import es.beatkapo.app.util.Utilidades;
@@ -82,10 +83,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 context.startActivity(intent);
             });
             //Añadir un ImageView por cada alergeno en el layout alergenosLayout
-            List<Alergeno> alergenos = producto.getIngredientes().stream()
-                    .map(ingrediente -> ingrediente.getAlergenos())
+            List<Ingrediente> ingredientes = producto.getIngredientes();
+
+            List<Alergeno> alergenos = ingredientes.stream()
+                    .map(Ingrediente::getAlergenos)
                     .flatMap(List::stream)
-                    .distinct()
                     .collect(Collectors.toList());
             for (Alergeno alergeno : alergenos) {
                 ImageView imageView = new ImageView(context);
@@ -94,7 +96,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 if(idImagen > -1){
                     imageView.setImageResource(idImagen);
                     alergenosLayout.addView(imageView);
-
                 }
             }
         }

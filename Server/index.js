@@ -328,15 +328,16 @@ async function getUsuarios(){
 }
 async function getUsuarioByID(id){
     try {
-        doc(db, 'usuarios', id).get().then((doc) => {
-            if (doc.exists()) {
-                user = doc.data();
-                user.id = doc.id;
-            } else {
-                console.log('No such document!');
-            }
-        });
-        return user;
+        const docRef = doc(db, 'usuarios', id);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+            user = docSnap.data();
+            user.id = docSnap.id;
+            const data = { error: false, usuario: user };
+            return data;
+        }else{
+            return { error: true, message: 'Usuario no encontrado' };
+        }
     } catch (error) {
         console.error('Error obteniendo usuarios por ID:', error);
         throw error;
@@ -459,6 +460,16 @@ expressApp.get('/api/pedidos', (req, res) => {
 
     });
 });
+expressApp.get('/api/usuario', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const response = await getUsuarioByID(decoded.id);
+        res.json(response);
+    }).catch((error) => {
+        res.status(401).send('Error verificando token: ' + error);
+
+    });
+});
 expressApp.get('/api/usuarios',(req,res)=>{
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
@@ -472,8 +483,8 @@ expressApp.get('/api/usuarios',(req,res)=>{
 expressApp.get('/api/usuarios/:id',(req,res)=>{
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
-        const user = await getUsuarioByID(req.params.id);
-        res.json(user);
+        const response = await getUsuarioByID(req.params.id);
+        res.json(response);
     }).catch((error) => {
         res.status(401).send('Error verificando token: ' + error);
 

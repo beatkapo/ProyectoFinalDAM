@@ -53,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
             usuario.setPassword(encryptedPassword);
             loginService.login(usuario, response -> {
                 LoginResponse loginResponse = (LoginResponse) response;
+                if(loginResponse == null){
+                    Utilidades.showAlert(activity, getString(R.string.internalErrorTitle), getString(R.string.responseError_login), getString(R.string.accept), null, null, null);
+                    return;
+                }
                 if(loginResponse.isError()){
                     if(loginResponse.getErrorCode() == 0) {
                         Utilidades.showAlert(activity, getString(R.string.registerQuestionTitle), getString(R.string.registerQuestionMessage), getString(R.string.accept), (a,e) -> {

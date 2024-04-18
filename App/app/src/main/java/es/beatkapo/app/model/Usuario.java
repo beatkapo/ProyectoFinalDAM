@@ -117,4 +117,7 @@ public class Usuario {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+    public boolean esAdministrador(){
+        return this.getTipoUsuario() == TipoUsuario.ADMINISTRADOR;
+    }
 }

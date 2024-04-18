@@ -37,4 +37,6 @@
     <string name="menu_opinions">Reseñas</string>
     <string name="menu_settings">Ajustes</string>
     <string name="add_cart_button">Añadir al carrito</string>
+    <string name="adminMenu">Panel de administración</string>
+    <string name="responseError_login">Hubo un problema de conexión con el servidor.</string>
 </resources>
