@@ -212,13 +212,33 @@ async function getPedidoByClienteID(clienteID){
         const querySnapshot = await getDocs(q);
         const orders = [];
         querySnapshot.forEach((doc) => {
-            data = doc.data();
-            data.id = doc.id;
-            orders.push(data);
+            pedido = doc.data();
+            pedido.id = doc.id;
+            pedido.lineas = getLineasPedidoByPedidoID(pedido.id);
+            orders.push(pedido);
         });
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos por cliente:', error);
+        throw error;
+    }
+
+}
+async function getLineasPedidoByPedidoID(pedidoID){
+    try {
+        const q = query(collection(db, 'lineas_pedidos'), where('pedido', '==', pedidoID));
+        const querySnapshot = await getDocs(q);
+        const linesPromises = querySnapshot.docs.map(async (doc) => {
+            const line = doc.data();
+            line.id = doc.id;
+            const product = await getProductoByID(line.producto);
+            line.producto = product;
+            return line;
+        });
+        const lines = await Promise.all(linesPromises);
+        return lines;
+    } catch (error) {
+        console.error('Error obteniendo lineas de pedido por pedido:', error);
         throw error;
     }
 

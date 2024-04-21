@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import es.beatkapo.app.model.TipoUsuario;
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.response.LoginResponse;
+import es.beatkapo.app.response.UsuarioResponse;
+import es.beatkapo.app.service.GetAccount;
 import es.beatkapo.app.service.LoginService;
 import es.beatkapo.app.util.ServiceUtils;
 import es.beatkapo.app.util.Utilidades;
@@ -81,11 +84,18 @@ public class LoginActivity extends AppCompatActivity {
                     //Aplicar token en ServiceUtils
                     ServiceUtils.setToken(token);
                     //Ir a la pantalla principal
-                    Intent intent = new Intent(this, HomeActivity.class);
-                    startActivity(intent);
-
-                    finish();
-                }
+                    GetAccount service = new GetAccount();
+                    service.getAccount(response1 -> {
+                        Usuario usuario1 = ((UsuarioResponse) response1).getUsuario();
+                        Utilidades.saveUser(usuario1, context);
+                        Intent intent = new Intent(context, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }, ex -> {
+                        Utilidades.showAlert(activity, getString(R.string.internalErrorTitle), getString(R.string.internalError_login), getString(R.string.accept), null, null, null);
+                        System.out.println("Error en el login");
+                    });
+                    }
             }, ex -> {
                 Utilidades.showAlert(this, getString(R.string.internalErrorTitle), getString(R.string.internalError_login), getString(R.string.accept), null, null, null);
                 System.out.println("Error en el login");
@@ -115,8 +125,6 @@ public class LoginActivity extends AppCompatActivity {
 
         return true;
     }
-    public void mas(View v){
 
-    }
 
 }

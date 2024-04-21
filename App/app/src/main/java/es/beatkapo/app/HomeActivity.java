@@ -1,53 +1,33 @@
 package es.beatkapo.app;
 
-import static es.beatkapo.app.util.Utilidades.ADMIN;
-import static es.beatkapo.app.util.Utilidades.HOME;
-import static es.beatkapo.app.util.Utilidades.OPINIONS;
-import static es.beatkapo.app.util.Utilidades.ORDERS;
-import static es.beatkapo.app.util.Utilidades.SETTINGS;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.material.navigation.NavigationView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import es.beatkapo.app.adapter.HomeListAdapter;
-import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Categoria;
-import es.beatkapo.app.model.TipoUsuario;
-import es.beatkapo.app.model.Usuario;
+import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.response.CategoriasResponse;
 import es.beatkapo.app.response.ProductosResponse;
-import es.beatkapo.app.response.UsuarioResponse;
-import es.beatkapo.app.service.GetAccount;
 import es.beatkapo.app.service.GetCategoriasService;
 import es.beatkapo.app.service.GetProductosService;
 import es.beatkapo.app.util.Utilidades;
 
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends BaseActivity {
 
-    TextView name, email;
-    private ImageButton btnMenu;
     private LinearLayout homeLayout;
 
     private List<Categoria> categorias;
     private List<Producto> productos;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -56,11 +36,12 @@ public class HomeActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         //initializeComponents();
     }
+
     @Override
     protected void initializeComponents() {
-        btnMenu = findViewById(R.id.menuButton_home);
-
+        progressBar = findViewById(R.id.progressBar);
         homeLayout = findViewById(R.id.homeLayout);
+        setVisibility(true);
 
         loadData();
         super.initializeComponents();
@@ -68,15 +49,27 @@ public class HomeActivity extends BaseActivity{
         Log.e("HomeActivity", "Data loaded");
     }
 
+    private void setVisibility(boolean isLoading) {
+        if (isLoading) {
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            homeLayout.setVisibility(LinearLayout.GONE);
+        } else {
+            progressBar.setVisibility(ProgressBar.GONE);
+            homeLayout.setVisibility(LinearLayout.VISIBLE);
+        }
+    }
 
 
-    private void loadData(){
+    private void loadData() {
         GetProductosService service = new GetProductosService();
         service.getProductos(response -> {
-            if(response == null){
+            if (response == null) {
                 // Mostrar mensaje de error
                 Log.e("HomeActivity", "Response is null");
-            }else{
+                Utilidades.showAlert(this, getString(R.string.internalErrorTitle), getString(R.string.responseError_login), getString(R.string.accept), (d, w) -> {
+                    finish();
+                }, null, null);
+            } else {
                 // Cargar los productos en la vista
 
                 productos = ((ProductosResponse) response).getProductos();
@@ -87,14 +80,15 @@ public class HomeActivity extends BaseActivity{
             Log.e("HomeActivity", "Error al cargar los productos", ex);
         });
     }
+
     private void loadCategories() {
         GetCategoriasService service = new GetCategoriasService();
         service.getCategorias(response -> {
-            if(response == null) {
+            if (response == null) {
                 // Mostrar mensaje de error
                 Log.e("HomeActivity", "Response is null");
 
-            }else {
+            } else {
                 categorias = ((CategoriasResponse) response).getCategorias();
                 // Cargar las categorías en la vista
 
@@ -127,14 +121,12 @@ public class HomeActivity extends BaseActivity{
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(layoutManager);
             homeLayout.addView(recyclerView);
+            setVisibility(false);
             adapter.notifyDataSetChanged();
 
 
         }
     }
-
-
-
 
 
 }

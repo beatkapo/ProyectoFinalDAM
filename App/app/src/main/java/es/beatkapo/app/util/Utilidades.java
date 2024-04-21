@@ -1,16 +1,18 @@
 package es.beatkapo.app.util;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
+
+import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,12 +20,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import es.beatkapo.app.R;
+import es.beatkapo.app.model.Usuario;
 
 public class Utilidades {
     public static final int HOME = R.id.nav_home;
     public static final int ORDERS = R.id.nav_orders;
     public static final int OPINIONS = R.id.nav_opinions;
-    public static final int SETTINGS = R.id.nav_settings;
+    public static final int SETTINGS = R.id.nav_information;
     public static final int ADMIN = R.id.nav_admin;
     public static String encryptPassword(String password) {
         try {
@@ -116,6 +119,20 @@ public class Utilidades {
             default:
                 return -1;
         }
+    }
+    public static void saveUser(Usuario user, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("user", json);
+        editor.apply();
+    }
+    public static Usuario getUser(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("user", null);
+        return gson.fromJson(json, Usuario.class);
     }
 }
 

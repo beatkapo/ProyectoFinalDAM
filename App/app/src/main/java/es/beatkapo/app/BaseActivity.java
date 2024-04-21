@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -23,15 +23,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import es.beatkapo.app.model.Usuario;
-import es.beatkapo.app.response.UsuarioResponse;
-import es.beatkapo.app.service.GetAccount;
+import es.beatkapo.app.util.Utilidades;
 
 public class BaseActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TextView name, email;
-    private Usuario usuario;
+    protected Usuario user;
     private Context context;
+    private ImageButton btnMenu;
 
 
     @Override
@@ -40,41 +40,29 @@ public class BaseActivity extends AppCompatActivity {
         initializeComponents();
         context = this;
     }
-    protected  void initializeComponents() {
+    protected void initializeComponents() {
+        btnMenu = findViewById(R.id.menuButton);
+
         drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.nav_view_home);
-        drawerLayout.closeDrawer(GravityCompat.END);
+        navigationView = findViewById(R.id.nav_view);
+        if(drawerLayout != null) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+        }
         View v = navigationView.getHeaderView(0);
         name = v.findViewById(R.id.name_header);
         email = v.findViewById(R.id.email_header);
         loadUser();
-        initializeMenu();
+
     }
 
     private void loadUser() {
         // Cargar el usuario en la vista
-        String token = getSharedPreferences("app", MODE_PRIVATE).getString("token", "");
-        if(token != null && !token.isEmpty()){
-            // Obtener el usuario con el token
-            GetAccount service = new GetAccount();
-            service.getAccount(response -> {
 
-                if(response == null){
-                    // Mostrar mensaje de error
-                    Log.e("HomeActivity", "Response is null");
-                }else{
-                    usuario = ((UsuarioResponse) response).getUsuario();
-                    // Cargar el usuario en la vista
-
-                    runOnUiThread(() -> {
-                        name.setText(usuario.getNombre());
-                        email.setText(usuario.getEmail());
-                    });
-                }
-            }, ex -> {
-                // Mostrar mensaje de error
-                Log.e("HomeActivity", "Error al cargar el usuario", ex);
-            });
+        user = Utilidades.getUser(this);
+        if(user != null){
+            name.setText(user.getNombre());
+            email.setText(user.getEmail());
+            initializeMenu();
         }
     }
     private void initializeMenu() {
@@ -95,25 +83,37 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }else if(id == OPINIONS){
-                    //Intent intent = new Intent(this, OpinionsActivity.class);
-                    //if(!this.getClass().equals(OpinionsActivity.class)) {
+                    //Intent intent = new Intent(context, OpinionsActivity.class);
+                    //if(!context.getClass().equals(OpinionsActivity.class)) {
                     //    startActivity(intent);
                     //}
                 } else if (id == SETTINGS){
-                    //Intent intent = new Intent(this, SettingsActivity.class);
-                    //if(!this.getClass().equals(SettingsActivity.class)) {
-                    //    startActivity(intent);
-                    //}
+                    Intent intent = new Intent(context, InformationActivity.class);
+                    if(!context.getClass().equals(InformationActivity.class)) {
+                        startActivity(intent);
+                    }
                 } else if(id == ADMIN){
-                    //Intent intent = new Intent(this, AdminActivity.class);
-                    //if(!this.getClass().equals(AdminActivity.class)) {
-                    //    startActivity(intent);
-                    //}
+                    Intent intent = new Intent(context, AdminHomeActivity.class);
+                    if(!context.getClass().equals(AdminHomeActivity.class)) {
+                        startActivity(intent);
+                    }
                 }
-
-                return false;
+                drawerLayout.closeDrawer(GravityCompat.END);
+                return true;
             }
         });
+        switch (user.getTipoUsuario()){
+            case 2:
+                navigationView.getMenu().findItem(ADMIN).setVisible(true);
+                break;
+            case 1:
+                navigationView.getMenu().findItem(ADMIN).setVisible(true);
+                break;
+            default:
+                navigationView.getMenu().findItem(ADMIN).setVisible(false);
+                break;
+
+        }
     }
     public void showMenu(View v){
         drawerLayout.openDrawer(GravityCompat.END);

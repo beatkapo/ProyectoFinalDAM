@@ -1,6 +1,7 @@
 package es.beatkapo.app;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -35,7 +36,7 @@ public class ProductoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_producto);
+        setContentView(R.layout.activity_product);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.coordinatorLayout_producto), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,8 +51,9 @@ public class ProductoActivity extends AppCompatActivity {
         precio = findViewById(R.id.productPrice);
         descripcion = findViewById(R.id.productDescription);
         cantidadProducto = findViewById(R.id.cantidad_textView);
+        cantidadProducto.setText(String.valueOf(cantidad));
         imagen = findViewById(R.id.productImage);
-        progressBar = findViewById(R.id.progressBarProduto);
+        progressBar = findViewById(R.id.progressBar);
         scrollView = findViewById(R.id.scrollViewProducto);
         frameLayout = findViewById(R.id.frameLayoutProducto);
         floatingButton = findViewById(R.id.addToCartButton);
@@ -89,6 +91,16 @@ public class ProductoActivity extends AppCompatActivity {
             scrollView.setVisibility(NestedScrollView.VISIBLE);
             frameLayout.setVisibility(FrameLayout.VISIBLE);
             floatingButton.setVisibility(ExtendedFloatingActionButton.VISIBLE);
+        }
+    }
+    public void mas(View view){
+        cantidad++;
+        cantidadProducto.setText(String.valueOf(cantidad));
+    }
+    public void menos(View view){
+        if(cantidad > 0){
+            cantidad--;
+            cantidadProducto.setText(String.valueOf(cantidad));
         }
     }
 

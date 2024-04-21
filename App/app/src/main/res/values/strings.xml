@@ -35,8 +35,16 @@
     <string name="menu_favorites">Favoritos</string>
     <string name="menu_profile">Perfil</string>
     <string name="menu_opinions">Reseñas</string>
-    <string name="menu_settings">Ajustes</string>
+    <string name="menu_information">Mi información</string>
     <string name="add_cart_button">Añadir al carrito</string>
     <string name="adminMenu">Panel de administración</string>
     <string name="responseError_login">Hubo un problema de conexión con el servidor.</string>
+    <string name="titleOrders">Mis pedidos</string>
+    <string name="noOrdersYet">No has hecho ningún pedido todavía, ¿A que esperas?</string>
+    <string name="return_home">Volver a la tienda</string>
+    <string name="titleAdminHome">Panel de administrador</string>
+    <string name="save">Guardar</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="information_profile">Perfil e inicio de sesión</string>
+    <string name="information_contact">Información de contacto</string>
 </resources>

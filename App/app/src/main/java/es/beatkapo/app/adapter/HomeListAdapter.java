@@ -38,7 +38,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     @NonNull
     @Override
     public HomeListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_element, null);
+        View view = inflater.inflate(R.layout.products_list_element, null);
         return new HomeListAdapter.ViewHolder(view);
     }
 

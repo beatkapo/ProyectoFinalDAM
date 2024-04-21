@@ -5,12 +5,93 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center|top"
     android:fitsSystemWindows="false"
-    tools:openDrawer="end"
-    tools:context=".OrdersActivity">
+    tools:context=".OrdersActivity"
+    tools:openDrawer="end">
+
+    <LinearLayout
+        android:id="@+id/rootLayout_orders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bottom_corners"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/logoOrders"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="10"
+                android:src="@drawable/pizzeria_cabanes_white" />
+
+            <TextView
+                android:id="@+id/title_orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="80"
+                android:text="@string/titleOrders"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/menuButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="10"
+                android:background="#00FFFFFF"
+                android:onClick="showMenu"
+                android:scaleType="center"
+                android:src="@drawable/list"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/noOrdersTextView"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lines="2"
+                android:text="@string/noOrdersYet"
+                android:padding="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/return_home"
+                android:onClick="returnHome"
+                android:drawableLeft="@drawable/burger"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white"
+                android:padding="10dp"
+                android:backgroundTint="@color/veri_peri"
+                android:background="@drawable/rounded_corners"/>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view_orders"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"

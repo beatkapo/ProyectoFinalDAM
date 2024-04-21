@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import es.beatkapo.app.model.TipoUsuario;
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.response.RegisterResponse;
 import es.beatkapo.app.service.RegisterService;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(validateFields()){
             //Crear objeto usuario
             Usuario usuario = new Usuario();
+            usuario.setTipoUsuario(0);
             usuario.setEmail(email.getText().toString());
             usuario.setPassword(Utilidades.encryptPassword(password.getText().toString()));
             String nameStr = name.getText().toString();

@@ -10,10 +10,10 @@ public class Usuario {
     private String password;
     private String direccion1;
     private String direccion2;
-    private TipoUsuario tipoUsuario;
+    private int tipoUsuario;
     private String imagen;
 
-    public Usuario(String id, String nombre, String apellidos, String telefono1, String telefono2, String email, String password, String direccion1, String direccion2, TipoUsuario tipoUsuario, String imagen) {
+    public Usuario(String id, String nombre, String apellidos, String telefono1, String telefono2, String email, String password, String direccion1, String direccion2, int tipoUsuario, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -110,14 +110,16 @@ public class Usuario {
         this.direccion2 = direccion2;
     }
 
-    public TipoUsuario getTipoUsuario() {
+    public int getTipoUsuario() {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+    public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
-    public boolean esAdministrador(){
-        return this.getTipoUsuario() == TipoUsuario.ADMINISTRADOR;
+
+    public boolean esAdministrador() {
+        return this.getTipoUsuario() == 2;
     }
+
 }
