@@ -8,8 +8,10 @@ La base de datos almacena:
  - Usuarios
  - Productos
  - Ingredientes
+ - Alergenos
  - Categorías
  - Pedidos
+   
 
 ## Servidor [->](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Server/index.js)
 API Express que se encargará de realizar las consultas a la base de datos.
