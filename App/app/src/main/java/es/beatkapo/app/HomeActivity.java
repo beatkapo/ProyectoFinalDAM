@@ -24,11 +24,9 @@ import es.beatkapo.app.util.Utilidades;
 public class HomeActivity extends BaseActivity {
 
     private LinearLayout homeLayout;
-
     private List<Categoria> categorias;
     private List<Producto> productos;
     private ProgressBar progressBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +69,8 @@ public class HomeActivity extends BaseActivity {
                 }, null, null);
             } else {
                 // Cargar los productos en la vista
-
                 productos = ((ProductosResponse) response).getProductos();
+                // Cargar las categorías
                 loadCategories();
             }
         }, ex -> {
@@ -85,17 +83,16 @@ public class HomeActivity extends BaseActivity {
         GetCategoriasService service = new GetCategoriasService();
         service.getCategorias(response -> {
             if (response == null) {
-                // Mostrar mensaje de error
+                // Mostrar mensaje de error para el debug
                 Log.e("HomeActivity", "Response is null");
 
             } else {
                 categorias = ((CategoriasResponse) response).getCategorias();
                 // Cargar las categorías en la vista
-
                 addRecyclerViews();
             }
         }, ex -> {
-            // Mostrar mensaje de error
+            // Mostrar mensaje de error para el debug
             Log.e("HomeActivity", "Error al cargar las categorías", ex);
         });
     }

@@ -1,18 +1,35 @@
 package es.beatkapo.app.model;
-
+/**
+ * Clase que representa un usuario en el sistema.
+ */
 public class Usuario {
-    private String id;
-    private String nombre;
-    private String apellidos;
-    private String telefono1;
-    private String telefono2;
-    private String email;
-    private String password;
-    private String direccion1;
-    private String direccion2;
-    private int tipoUsuario;
-    private String imagen;
+    private String id; // Identificador único del usuario
+    private String nombre; // Nombre del usuario
+    private String apellidos; // Apellidos del usuario
+    private String telefono1; // Teléfono principal del usuario
+    private String telefono2; // Teléfono secundario del usuario
+    private String email; // Correo electrónico del usuario
+    private String password; // Contraseña del usuario
+    private String direccion1; // Dirección principal del usuario
+    private String direccion2; // Dirección secundaria del usuario
+    private int tipoUsuario; // Tipo de usuario (0: Usuario normal, 1: Trabajador, 2: Administrador)
+    private String imagen; // Imagen de perfil del usuario
 
+    /**
+     * Constructor de la clase Usuario.
+     *
+     * @param id Identificador único del usuario.
+     * @param nombre Nombre del usuario.
+     * @param apellidos Apellidos del usuario.
+     * @param telefono1 Primer número de teléfono del usuario.
+     * @param telefono2 Segundo número de teléfono del usuario.
+     * @param email Dirección de correo electrónico del usuario.
+     * @param password Contraseña del usuario.
+     * @param direccion1 Dirección principal del usuario.
+     * @param direccion2 Dirección secundaria del usuario.
+     * @param tipoUsuario Tipo de usuario (0: Normal, 1: Moderador, 2: Administrador).
+     * @param imagen URL de la imagen de perfil del usuario.
+     */
     public Usuario(String id, String nombre, String apellidos, String telefono1, String telefono2, String email, String password, String direccion1, String direccion2, int tipoUsuario, String imagen) {
         this.id = id;
         this.nombre = nombre;

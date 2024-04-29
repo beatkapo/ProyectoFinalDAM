@@ -25,12 +25,12 @@ public abstract class BaseService<T, R> {
                     try {
                         String json = null;
                         if (requestObject != null) {
-                            json = gson.toJson(requestObject);
+                            json = gson.toJson(requestObject); // Convierte el objeto de solicitud a formato JSON.
                         }
-                        String response = ServiceUtils.getResponse(url, json, method);
-                        return gson.fromJson(response, getResponseClass());
+                        String response = ServiceUtils.getResponse(url, json, method);// Realiza la solicitud HTTP y obtiene la respuesta como una cadena JSON.
+                        return gson.fromJson(response, getResponseClass());// Deserializa la respuesta JSON en un objeto de la clase de respuesta.
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException(e);// Lanza una excepción si ocurre un error durante la solicitud.
                     }
                 }, executorService)
                 .thenAccept(response -> {
