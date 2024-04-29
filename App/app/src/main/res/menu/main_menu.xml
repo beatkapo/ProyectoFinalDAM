@@ -32,4 +32,5 @@
             android:icon="@drawable/admin"
             android:title="@string/adminMenu" />
     </group>
+
 </menu>

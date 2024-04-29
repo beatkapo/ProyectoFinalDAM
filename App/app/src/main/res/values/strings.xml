@@ -47,4 +47,7 @@
     <string name="change_password">Cambiar contraseña</string>
     <string name="information_profile">Perfil e inicio de sesión</string>
     <string name="information_contact">Información de contacto</string>
+    <string name="resumen">Resumen del pedido</string>
+    <string name="tramitarPedido">Tramitar pedido</string>
+    <string name="cestaVacia">Todavía no hay productos en el carrito.</string>
 </resources>

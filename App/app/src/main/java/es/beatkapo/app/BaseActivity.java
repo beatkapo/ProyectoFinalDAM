@@ -22,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import es.beatkapo.app.model.Pedido;
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.util.Utilidades;
 
@@ -32,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Usuario user;
     private Context context;
     private ImageButton btnMenu;
+    private Pedido pedido;
 
 
     @Override
@@ -41,6 +43,7 @@ public class BaseActivity extends AppCompatActivity {
         context = this;
     }
     protected void initializeComponents() {
+
         btnMenu = findViewById(R.id.menuButton);
 
         drawerLayout = findViewById(R.id.drawerLayout);

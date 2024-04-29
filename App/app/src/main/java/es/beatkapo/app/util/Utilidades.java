@@ -20,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import es.beatkapo.app.R;
+import es.beatkapo.app.model.Pedido;
 import es.beatkapo.app.model.Usuario;
 
 public class Utilidades {
@@ -133,6 +134,20 @@ public class Utilidades {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("user", null);
         return gson.fromJson(json, Usuario.class);
+    }
+    public static Pedido getPedido(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("pedido", null);
+        return gson.fromJson(json, Pedido.class);
+    }
+    public static void savePedido(Pedido pedido, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(pedido);
+        editor.putString("pedido", json);
+        editor.apply();
     }
 }
 
