@@ -45,7 +45,6 @@ public abstract class BaseService<T, R> {
                     handler.post(() -> onFailure.onFailure(ex));
                     return null;
                 });
-
     }
 
     protected abstract Class<R> getResponseClass();
