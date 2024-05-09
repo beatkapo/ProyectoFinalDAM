@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import es.beatkapo.app.model.Pedido;
@@ -27,13 +29,16 @@ import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.util.Utilidades;
 
 public class BaseActivity extends AppCompatActivity {
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private TextView name, email;
+    private TextView name, email, cantidadCarritoText;
     protected Usuario user;
     private Context context;
     private ImageButton btnMenu;
-    private Pedido pedido;
+    private FloatingActionButton carritoButton;
+
+    protected Pedido pedido;
 
 
     @Override
@@ -43,9 +48,15 @@ public class BaseActivity extends AppCompatActivity {
         context = this;
     }
     protected void initializeComponents() {
-
+        pedido = Utilidades.getPedido(this);
         btnMenu = findViewById(R.id.menuButton);
+        carritoButton = findViewById(R.id.carritoButton);
 
+        carritoButton.setOnClickListener(v -> {
+            Utilidades.abrirCarrito(context, pedido);
+        });
+        cantidadCarritoText = findViewById(R.id.cantidad_carrito_textView);
+        actualizarCantidadCarrito();
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.nav_view);
         if(drawerLayout != null) {
@@ -56,6 +67,15 @@ public class BaseActivity extends AppCompatActivity {
         email = v.findViewById(R.id.email_header);
         loadUser();
 
+    }
+
+    protected void actualizarCantidadCarrito() {
+        pedido = Utilidades.getPedido(this);
+        if(pedido == null){
+            cantidadCarritoText.setText("0");
+        }else{
+            cantidadCarritoText.setText(String.valueOf(pedido.getCantidadProductos()));
+        }
     }
 
     private void loadUser() {

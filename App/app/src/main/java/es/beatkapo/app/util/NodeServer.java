@@ -8,7 +8,7 @@ public class NodeServer {
     private static String IP_EMULADOR = "10.0.2.2";
     public static String getServer()
     {
-        return "http://"+ IP_EMULADOR +":"+PORT;//Si la ip canvia (no es ninguna de les variables), revisar network-security-config.xml
+        return "http://"+ IP_PUBLICA +":"+PORT;//Si la ip canvia (no es ninguna de les variables), revisar network-security-config.xml
     }
 
 }

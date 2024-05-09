@@ -7,5 +7,6 @@
     <color name="secondary_dark_veri_peri">#2C2D4A</color>
     <color name="light_veri_peri">#8E90ED</color>
     <color name="veri_peri">#6667AB</color>
+    <color name="red">#FF1100</color>
 
 </resources>

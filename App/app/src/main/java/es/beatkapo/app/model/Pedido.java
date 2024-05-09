@@ -1,5 +1,6 @@
 package es.beatkapo.app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
@@ -20,6 +21,7 @@ public class Pedido {
     }
 
     public Pedido() {
+
     }
 
     public String getId() {
@@ -69,8 +71,26 @@ public class Pedido {
         }
         return auxTotal;
     }
+    public int getCantidadProductos(){
+        if (lineas == null) {
+            return 0;
+        }
+        int cantidad = 0;
+        for (LineaPedido linea : lineas) {
+            cantidad += linea.getCantidad();
+        }
+        return cantidad;
+    }
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public void addProducto(Producto producto, int cantidad) {
+        LineaPedido linea = new LineaPedido(producto, cantidad);
+        if (lineas == null) {
+            lineas = new ArrayList<>();
+        }
+        lineas.add(linea);
     }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
 
@@ -34,6 +35,7 @@ public class ProductoActivity extends BaseActivity {
 
     public void initializeComponents() {
         super.initializeComponents();
+        cantidad = 1;
         idProducto = getIntent().getStringExtra("idProducto");
         nombre = findViewById(R.id.productName);
         precio = findViewById(R.id.productPrice);
@@ -80,10 +82,18 @@ public class ProductoActivity extends BaseActivity {
         cantidadProducto.setText(String.valueOf(cantidad));
     }
     public void menos(View view){
-        if(cantidad > 0){
+        if(cantidad > 1){
             cantidad--;
             cantidadProducto.setText(String.valueOf(cantidad));
         }
+    }
+    public void addToCart(View view){
+        pedido.addProducto(producto, cantidad);
+        Utilidades.savePedido(pedido, this);
+        cantidad = 0;
+        cantidadProducto.setText(String.valueOf(cantidad));
+        actualizarCantidadCarrito();
+        Toast.makeText(this, getString(R.string.productAdded), Toast.LENGTH_SHORT).show();
     }
 
 }

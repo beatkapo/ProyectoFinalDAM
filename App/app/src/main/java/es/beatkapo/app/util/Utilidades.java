@@ -2,15 +2,26 @@ package es.beatkapo.app.util;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -19,8 +30,12 @@ import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import es.beatkapo.app.CompleteOrder;
+import es.beatkapo.app.ProductoActivity;
 import es.beatkapo.app.R;
+import es.beatkapo.app.model.LineaPedido;
 import es.beatkapo.app.model.Pedido;
+import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Usuario;
 
 public class Utilidades {
@@ -138,7 +153,7 @@ public class Utilidades {
     public static Pedido getPedido(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("pedido", null);
+        String json = sharedPreferences.getString("pedido", gson.toJson(new Pedido()));
         return gson.fromJson(json, Pedido.class);
     }
     public static void savePedido(Pedido pedido, Context context) {
@@ -149,5 +164,51 @@ public class Utilidades {
         editor.putString("pedido", json);
         editor.apply();
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public static void abrirCarrito(Context context, Pedido pedido) {
+        // Abrir el PopupWindow del carrito
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.carrito, null);
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        ImageButton close = popupView.findViewById(R.id.closeCartButton);
+        close.setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+        Button tramitar = popupView.findViewById(R.id.tramitarPedidoButton);
+        tramitar.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CompleteOrder.class);
+            context.startActivity(intent);
+        });
+//        popupView.setOnTouchListener((v, event) -> {
+//            popupWindow.dismiss();
+//            return true;
+//        });
+        LinearLayout carritoLayout = popupView.findViewById(R.id.cartLayout);
+        if(pedido.getCantidadProductos()>0){
+            carritoLayout.removeAllViews();
+            for(LineaPedido linea : pedido.getLineas()){
+                View lineaView = inflater.inflate(R.layout.linea_carrito, null);
+                TextView nombre, cantidad, precio;
+                nombre = lineaView.findViewById(R.id.nombreCarrito);
+                cantidad = lineaView.findViewById(R.id.cantidadCarrito);
+                precio = lineaView.findViewById(R.id.precioCarrito);
+                nombre.setText(linea.getProducto().getNombre());
+                cantidad.setText(String.valueOf("x"+linea.getCantidad()));
+                //String del precio con dos decimales
+                precio.setText(String.format("%.2f", linea.getTotal()) + "€");
+                carritoLayout.addView(lineaView);
+            }
+        }
+        View carritoButton = ((Activity) context).findViewById(R.id.carritoButton);
+        int[] location = new int[2];
+        carritoButton.getLocationOnScreen(location);
+        popupWindow.showAtLocation(carritoButton, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.getHeight());
+    }
+
+
 }
 
