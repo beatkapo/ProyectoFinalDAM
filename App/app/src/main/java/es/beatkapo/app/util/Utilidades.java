@@ -200,6 +200,12 @@ public class Utilidades {
                 cantidad.setText(String.valueOf("x"+linea.getCantidad()));
                 //String del precio con dos decimales
                 precio.setText(String.format("%.2f", linea.getTotal()) + "€");
+                ImageButton delete = lineaView.findViewById(R.id.binCarrito);
+                delete.setOnClickListener(v -> {
+                    pedido.removeLinea(linea);
+                    savePedido(pedido, context);
+                    carritoLayout.removeView(lineaView);
+                });
                 carritoLayout.addView(lineaView);
             }
         }

@@ -54,4 +54,12 @@
     <string name="empty_cart">No hay productos en el carrito, \n¿A que esperas?</string>
     <string name="total">Total:</string>
     <string name="productAdded">Producto añadido correctamente</string>
+    <string name="complete_order">Confirmar pedido</string>
+    <string name="completarPedido">Completa tu pedido</string>
+    <string name="direccion">Dirección:</string>
+    <string name="direccionEjemplo">Calle, Nº, piso, puerta...</string>
+    <string name="tuPedido">Tu pedido</string>
+    <string name="metodoPago">Método de pago</string>
+    <string name="efectivo">Efectivo</string>
+    <string name="tarjeta">"Tarjeta "</string>
 </resources>

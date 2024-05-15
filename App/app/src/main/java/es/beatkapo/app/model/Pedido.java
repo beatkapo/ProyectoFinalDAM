@@ -93,4 +93,8 @@ public class Pedido {
         }
         lineas.add(linea);
     }
+
+    public void removeLinea(LineaPedido linea) {
+        lineas.remove(linea);
+    }
 }
