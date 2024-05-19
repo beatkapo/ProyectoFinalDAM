@@ -8,5 +8,7 @@
     <color name="light_veri_peri">#8E90ED</color>
     <color name="veri_peri">#6667AB</color>
     <color name="red">#FF1100</color>
+    <color name="green">#47BB2C</color>
+    <color name="light_grey">#4C4C4C</color>
 
 </resources>

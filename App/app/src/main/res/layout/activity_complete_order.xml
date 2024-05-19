@@ -66,9 +66,10 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/tuPedido"
-                    android:textColor="@color/dark_veri_peri"
+                    android:textColor="@color/white"
                     android:textSize="25sp" />
                 <TextView
+                    android:id="@+id/numeroProductosTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="X productos"
@@ -87,14 +88,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/direccionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:text="@string/direccion"
-                        android:textSize="20sp"
-                        android:textColor="@color/dark_veri_peri"
-                        android:layout_margin="10dp" />
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
                     <EditText
                         android:id="@+id/direccionEditText"
                         android:layout_width="wrap_content"
@@ -160,4 +162,12 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -31,11 +31,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import es.beatkapo.app.CompleteOrder;
-import es.beatkapo.app.ProductoActivity;
 import es.beatkapo.app.R;
 import es.beatkapo.app.model.LineaPedido;
 import es.beatkapo.app.model.Pedido;
-import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Usuario;
 
 public class Utilidades {
@@ -193,9 +191,9 @@ public class Utilidades {
             for(LineaPedido linea : pedido.getLineas()){
                 View lineaView = inflater.inflate(R.layout.linea_carrito, null);
                 TextView nombre, cantidad, precio;
-                nombre = lineaView.findViewById(R.id.nombreCarrito);
-                cantidad = lineaView.findViewById(R.id.cantidadCarrito);
-                precio = lineaView.findViewById(R.id.precioCarrito);
+                nombre = lineaView.findViewById(R.id.nombreLineaPedido);
+                cantidad = lineaView.findViewById(R.id.cantidadLineaPedido);
+                precio = lineaView.findViewById(R.id.precioLineaPedido);
                 nombre.setText(linea.getProducto().getNombre());
                 cantidad.setText(String.valueOf("x"+linea.getCantidad()));
                 //String del precio con dos decimales

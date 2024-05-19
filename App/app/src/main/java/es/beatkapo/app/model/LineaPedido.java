@@ -46,4 +46,8 @@ public class LineaPedido {
     public double getTotal(){
         return cantidad*producto.getPrecio();
     }
+
+    public float getPrecio() {
+        return producto.getPrecio()*cantidad;
+    }
 }

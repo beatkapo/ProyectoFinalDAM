@@ -402,10 +402,12 @@ expressApp.get('/api/productos', (req, res) => {
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         const products = await getProductos();
-        data = { error: false, productos: products };
+        data = { error: false, productos: products , token: token};
+        console.log(data);
         res.json(data);
     }).catch((error) => {
-        data = { error: true, message: 'Error verificando token: ' + error };
+        data = { error: true, message: 'Error verificando token: ' };
+        console.log(data, token);
         res.status(401).json(data);
 
     });

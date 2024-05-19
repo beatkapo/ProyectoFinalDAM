@@ -73,7 +73,7 @@ public class ServiceUtils {
                 InputStream input = conn.getInputStream();
                 if ("gzip".equals(conn.getContentEncoding())) {
                     input = new GZIPInputStream(input);
-                }
+                }else
 
                 bufInput = new BufferedReader(
                         new InputStreamReader(input));

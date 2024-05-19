@@ -114,14 +114,7 @@
         android:padding="150dp"
         android:visibility="gone" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:visibility="gone"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -216,5 +209,13 @@
             app:layout_constraintEnd_toEndOf="@id/carritoButton"
             app:layout_constraintTop_toTopOf="@id/carritoButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
