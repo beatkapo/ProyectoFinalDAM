@@ -7,6 +7,7 @@ import static es.beatkapo.app.util.Utilidades.ORDERS;
 import static es.beatkapo.app.util.Utilidades.SETTINGS;
 import static es.beatkapo.app.util.Utilidades.savePedido;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +44,7 @@ public class BaseActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private TextView name, email, cantidadCarritoText;
     protected Usuario user;
-    private Context context;
+    protected Context context;
     private ImageButton btnMenu;
     private FloatingActionButton carritoButton;
 
@@ -86,7 +88,10 @@ public class BaseActivity extends AppCompatActivity {
         if(pedido == null){
             cantidadCarritoText.setText("0");
         }else{
-            cantidadCarritoText.setText(String.valueOf(pedido.getCantidadProductos()));
+            if(cantidadCarritoText != null){
+                cantidadCarritoText.setText(String.valueOf(pedido.getCantidadProductos()));
+            }
+
         }
     }
 
@@ -160,6 +165,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void setContext(Context context){
         this.context = context;
     }
+    @SuppressLint("MissingInflatedId")
     protected void abrirCarrito(Pedido pedido) {
         // Abrir el PopupWindow del carrito
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -173,9 +179,19 @@ public class BaseActivity extends AppCompatActivity {
             popupWindow.dismiss();
         });
         Button tramitar = popupView.findViewById(R.id.tramitarPedidoButton);
+
         tramitar.setOnClickListener(v -> {
+            if(pedido.getCantidadProductos() == 0){
+                Toast.makeText(context, R.string.carritoVacio, Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(context, CompleteOrder.class);
             context.startActivity(intent);
+        });
+
+        popupWindow.setOnDismissListener(() -> {
+            savePedido(pedido, context);
+            actualizarCantidadCarrito();
         });
 //        popupView.setOnTouchListener((v, event) -> {
 //            popupWindow.dismiss();
@@ -183,6 +199,7 @@ public class BaseActivity extends AppCompatActivity {
 //        });
         LinearLayout carritoLayout = popupView.findViewById(R.id.cartLayout);
         if(pedido.getCantidadProductos()>0){
+            actualizarTotalCarrito(pedido, popupView);
             carritoLayout.removeAllViews();
             for(LineaPedido linea : pedido.getLineas()){
                 View lineaView = inflater.inflate(R.layout.linea_carrito, null);
@@ -190,22 +207,40 @@ public class BaseActivity extends AppCompatActivity {
                 nombre = lineaView.findViewById(R.id.nombreLineaPedido);
                 cantidad = lineaView.findViewById(R.id.cantidadLineaPedido);
                 precio = lineaView.findViewById(R.id.precioLineaPedido);
+
                 nombre.setText(linea.getProducto().getNombre());
                 cantidad.setText(String.valueOf("x"+linea.getCantidad()));
                 //String del precio con dos decimales
                 precio.setText(String.format("%.2f", linea.getTotal()) + "€");
                 ImageButton delete = lineaView.findViewById(R.id.binCarrito);
+
                 delete.setOnClickListener(v -> {
                     pedido.removeLinea(linea);
                     savePedido(pedido, context);
                     carritoLayout.removeView(lineaView);
+                    if(pedido.getCantidadProductos() == 0){
+                        popupWindow.dismiss();
+                        abrirCarrito(pedido);
+                    }
+                    actualizarTotalCarrito(pedido, popupView);
                 });
                 carritoLayout.addView(lineaView);
+
             }
         }
         View carritoButton = ((Activity) context).findViewById(R.id.carritoButton);
         int[] location = new int[2];
         carritoButton.getLocationOnScreen(location);
         popupWindow.showAtLocation(carritoButton, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.getHeight());
+    }
+    public void actualizarTotalCarrito(Pedido pedido, View popupView) {
+        TextView total = popupView.findViewById(R.id.totalCart);
+        total.setText(String.format("%.2f", pedido.getTotal()) + "€");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actualizarCantidadCarrito();
     }
 }

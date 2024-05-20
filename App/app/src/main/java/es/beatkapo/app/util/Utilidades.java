@@ -61,6 +61,8 @@ public class Utilidades {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
+
+
             e.printStackTrace();
             return null;
         }

@@ -56,4 +56,5 @@ public abstract class BaseService<T, R> {
     public interface OnFailureCallback {
         void onFailure(Throwable ex);
     }
+
 }

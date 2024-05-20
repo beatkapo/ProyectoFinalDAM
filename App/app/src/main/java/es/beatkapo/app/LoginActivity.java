@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
                 }else{
-
+                    deleteSharedPreferences("app");
                     //Guardar token en SharedPreferences
                     String token = loginResponse.getToken();
                     SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);

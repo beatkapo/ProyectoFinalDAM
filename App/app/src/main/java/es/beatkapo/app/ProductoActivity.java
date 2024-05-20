@@ -90,7 +90,7 @@ public class ProductoActivity extends BaseActivity {
     public void addToCart(View view){
         pedido.addProducto(producto, cantidad);
         Utilidades.savePedido(pedido, this);
-        cantidad = 0;
+        cantidad = 1;
         cantidadProducto.setText(String.valueOf(cantidad));
         actualizarCantidadCarrito();
         Toast.makeText(this, getString(R.string.productAdded), Toast.LENGTH_SHORT).show();

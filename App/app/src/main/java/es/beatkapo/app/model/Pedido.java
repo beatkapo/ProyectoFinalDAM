@@ -8,6 +8,7 @@ public class Pedido {
     private String fecha;
     private String estado;
     private Usuario usuario;
+    private String direccion;
     private List<LineaPedido> lineas;
     private double total;
 
@@ -22,6 +23,14 @@ public class Pedido {
 
     public Pedido() {
 
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getId() {

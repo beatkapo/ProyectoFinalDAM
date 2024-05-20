@@ -9,7 +9,7 @@ public class NodeServer {
     private static String i = "192.168.229.47";
     public static String getServer()
     {
-        return "http://"+ i +":"+PORT;//Si la ip canvia (no es ninguna de les variables), revisar network-security-config.xml
+        return "http://"+ i+":"+PORT;//Si la ip canvia (no es ninguna de les variables), revisar network-security-config.xml
     }
 
 }

@@ -1,15 +1,15 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, query, where, getDocs, addDoc, getDoc, doc } = require('firebase/firestore');
 const { firebaseConfig, secretWord } = require("./config");
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
-
 const jwt = require('jsonwebtoken');
+
 const express = require('express');
 const e = require('express');
 const expressApp = express();
 const PORT = 3000;
 
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 expressApp.use(express.json());
 //Metodos relacionados con la autenticacion
@@ -366,11 +366,12 @@ async function getUsuarioByID(id){
 }
 //Rutas de la API
 expressApp.post('/api/register', (req, res) => {
+    // Comprobar si ya existe el usuario en la base de datos
     const user = req.body;
     console.log(user);
-    const q = query(collection(db, 'usuarios'), where('email', '==', user.email));//Comprobar si el usuario ya existe
+    const q = query(collection(db, 'usuarios'), where('email', '==', user.email));
     getDocs(q).then((querySnapshot) => {
-        if (querySnapshot.empty) {//Si no existe, se registra
+        if (querySnapshot.empty) {
             registerUser(user).then((data) => {
                 console.log(user.email + " registrado correctamente.");
                 response = { error: false, message: 'Usuario registrado correctamente', id: data };
@@ -378,15 +379,18 @@ expressApp.post('/api/register', (req, res) => {
             }).catch((error) => {
                 res.status(500).send('Error registrando usuario: ' + error);
             });
-        } else {//Si ya existe, se devuelve un error
+        } else {
             data = { error: true, message: 'El usuario ya existe' };
             res.status(400).json(data);
         }
     }).catch((error) => {
         res.status(500).send('Error comprobando usuario: ' + error);
     });
+
+    
 });
 expressApp.post('/api/login', (req, res) => {
+    console.log("Peticion de login.");
     loginUser(req.body).then((data) => {
         res.json(data);
     }).catch((error) => {
@@ -405,7 +409,6 @@ expressApp.get('/api/productos', (req, res) => {
         data = { error: true, message: 'Error verificando token: ' };
         console.log(data, token);
         res.status(401).json(data);
-
     });
 });
 expressApp.get('/api/productos/:id', (req, res) => {
@@ -516,6 +519,31 @@ expressApp.get('/api/usuarios/:id/pedidos',(req,res)=>{
     }).catch((error) => {
         res.status(401).send('Error verificando token: ' + error);
 
+    });
+});
+expressApp.post('/api/saveOrder',(req,res)=>{
+    console.log('Peticion entrante /api/saveOrder');
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        console.log('Token verificado');
+        const pedido = req.body;
+        const lineas = pedido.lineas;
+        delete pedido.lineas;
+        pedido.cliente = decoded.id;
+        pedido.fecha = new Date().toISOString();
+        const docRef = await addDoc(collection(db, 'pedidos'), pedido).catch((error) => {
+            res.status(401).send({error: true, message: 'Error añadiendo pedido: ' + error});
+        });
+        for(linea of lineas){
+            linea.pedido = docRef.id;
+            await addDoc(collection(db, 'lineas_pedidos'), linea).catch((error) => {
+                res.status(401).send({error: true, message: 'Error añadiendo linea de pedido: ' + error});
+            });
+        }
+        res.json({error: false, message: 'Pedido registrado correctamente', id: docRef.id});
+    }).catch((error) => {
+        console.log('Error verificando token:',error);
+        res.status(401).send({error: true, message: 'Error verificando token: ' + error});
     });
 });
 

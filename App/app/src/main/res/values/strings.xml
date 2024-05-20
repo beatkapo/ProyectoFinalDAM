@@ -62,4 +62,9 @@
     <string name="metodoPago">Método de pago</string>
     <string name="efectivo">Efectivo</string>
     <string name="tarjeta">"Tarjeta "</string>
+    <string name="carritoVacio">No tienes productos en el carrito</string>
+    <string name="orderSuccessTitle">Pedido realizado</string>
+    <string name="orderSuccessMessage">Tu pedido está en marcha!</string>
+    <string name="errorCompleteOrderTitle">Error al realizar pedido</string>
+    <string name="errorCompleteOrder">Asegurate de rellenar todos los campos.</string>
 </resources>

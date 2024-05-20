@@ -58,7 +58,7 @@ public class ServiceUtils {
 
             if (data != null) {
                 conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+                conn.setRequestProperty("Content-Length", Integer.toString(data.getBytes().length));
                 conn.setDoOutput(true);
                 //Send request
                 DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
