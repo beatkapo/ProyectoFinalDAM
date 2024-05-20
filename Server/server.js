@@ -1,15 +1,15 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, query, where, getDocs, addDoc, getDoc, doc } = require('firebase/firestore');
 const { firebaseConfig, secretWord } = require("./config");
-const jwt = require('jsonwebtoken');
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const e = require('express');
 const expressApp = express();
 const PORT = 3000;
 
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
 
 expressApp.use(express.json());
 //Metodos relacionados con la autenticacion
@@ -366,12 +366,11 @@ async function getUsuarioByID(id){
 }
 //Rutas de la API
 expressApp.post('/api/register', (req, res) => {
-    // Comprobar si ya existe el usuario en la base de datos
     const user = req.body;
     console.log(user);
-    const q = query(collection(db, 'usuarios'), where('email', '==', user.email));
+    const q = query(collection(db, 'usuarios'), where('email', '==', user.email));//Comprobar si el usuario ya existe
     getDocs(q).then((querySnapshot) => {
-        if (querySnapshot.empty) {
+        if (querySnapshot.empty) {//Si no existe, se registra
             registerUser(user).then((data) => {
                 console.log(user.email + " registrado correctamente.");
                 response = { error: false, message: 'Usuario registrado correctamente', id: data };
@@ -379,18 +378,15 @@ expressApp.post('/api/register', (req, res) => {
             }).catch((error) => {
                 res.status(500).send('Error registrando usuario: ' + error);
             });
-        } else {
+        } else {//Si ya existe, se devuelve un error
             data = { error: true, message: 'El usuario ya existe' };
             res.status(400).json(data);
         }
     }).catch((error) => {
         res.status(500).send('Error comprobando usuario: ' + error);
     });
-
-    
 });
 expressApp.post('/api/login', (req, res) => {
-    console.log("Peticion de login.");
     loginUser(req.body).then((data) => {
         res.json(data);
     }).catch((error) => {
