@@ -3,6 +3,7 @@ package es.beatkapo.app;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,11 @@ import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import es.beatkapo.app.model.Alergeno;
+import es.beatkapo.app.model.Ingrediente;
 import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.response.ProductoResponse;
 import es.beatkapo.app.service.GetProductoById;
@@ -21,9 +27,10 @@ public class ProductoActivity extends BaseActivity {
     private int cantidad;
     private String idProducto;
     private ImageView imagen;
-    private TextView nombre,precio,descripcion, cantidadProducto;
+    private TextView nombre,precio,descripcion, cantidadProducto, ingredientes;
     private ProgressBar progressBar;
     private NestedScrollView scrollView;
+    private LinearLayout alergenosLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class ProductoActivity extends BaseActivity {
         imagen = findViewById(R.id.productImage);
         progressBar = findViewById(R.id.progressBar);
         scrollView = findViewById(R.id.nestedScrollView);
+        alergenosLayout = findViewById(R.id.alergenosLayout);
         setVisibility(true);
         loadProducto();
     }
@@ -60,12 +68,14 @@ public class ProductoActivity extends BaseActivity {
             precio.setText(precioString);
             descripcion.setText(producto.getDescripcion());
             cantidadProducto.setText(String.valueOf(cantidad));
+            rellenarAlergenos(alergenosLayout);
             setVisibility(false);
         }, error -> {
             Utilidades.showAlert(this, getString(R.string.internalErrorTitle), error.getMessage(), getString(R.string.accept), (d,w) ->{
                 finish();
             }, null, null);
         });
+
     }
 
     private void setVisibility(boolean isLoading){
@@ -94,6 +104,25 @@ public class ProductoActivity extends BaseActivity {
         cantidadProducto.setText(String.valueOf(cantidad));
         actualizarCantidadCarrito();
         Toast.makeText(this, getString(R.string.productAdded), Toast.LENGTH_SHORT).show();
+    }
+
+    private void rellenarAlergenos(LinearLayout alergenosLayout){
+        //Añadir un ImageView por cada alergeno en el layout alergenosLayout
+        List<Ingrediente> ingredientes = producto.getIngredientes();
+
+        List<Alergeno> alergenos = ingredientes.stream()
+                .map(Ingrediente::getAlergenos)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        for (Alergeno alergeno : alergenos) {
+            ImageView imageView = new ImageView(context);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            int idImagen = Utilidades.getAlergenoImage(alergeno.getId());
+            if(idImagen > -1){
+                imageView.setImageResource(idImagen);
+                alergenosLayout.addView(imageView);
+            }
+        }
     }
 
 }

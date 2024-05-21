@@ -55,8 +55,19 @@
                 android:src="@drawable/list"
                 app:tint="@color/white" />
         </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ordersLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
+            android:id="@+id/noOrdersLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -69,20 +80,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lines="2"
-                android:text="@string/noOrdersYet"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                android:text="@string/noOrdersYet" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/return_home"
-                android:onClick="returnHome"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="@color/veri_peri"
                 android:drawableLeft="@drawable/burger"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/white"
+                android:onClick="returnHome"
                 android:padding="10dp"
-                android:backgroundTint="@color/veri_peri"
-                android:background="@drawable/rounded_corners"/>
-
+                android:text="@string/return_home" />
 
 
         </LinearLayout>

@@ -1,6 +1,5 @@
 package es.beatkapo.app;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import es.beatkapo.app.model.LineaPedido;
-import es.beatkapo.app.response.ProductosResponse;
 import es.beatkapo.app.response.Response;
 import es.beatkapo.app.service.SendOrder;
 import es.beatkapo.app.util.Utilidades;

@@ -94,7 +94,7 @@ async function getProductos() {
 async function getProductoByID(id) {
     // Obtener producto por id
     try {
-        const docRef = doc(db, 'productos', id);
+        const docRef = getDoc(db, 'productos', id);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
             product = docSnap.data();
@@ -195,11 +195,16 @@ async function getPedidos(){
         const q = query(collection(db, 'pedidos'));
         const querySnapshot = await getDocs(q);
         const orders = [];
-        querySnapshot.forEach((doc) => {
-            data = doc.data();
-            data.id = doc.id;
-            orders.push(data);
+        querySnapshot.forEach(async (doc) => {
+            pedido = doc.data();
+            pedido.id = doc.id;
+            pedido.lineas = await getLineasPedidoByPedidoID(pedido.id).catch((error) => {
+                console.error('Error obteniendo lineas de pedido:', error);
+            
+            });
+            orders.push(pedido);
         });
+        console.log('Pedidos:',orders);
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos:', error);
@@ -211,12 +216,13 @@ async function getPedidoByClienteID(clienteID){
         const q = query(collection(db, 'pedidos'), where('cliente', '==', clienteID));
         const querySnapshot = await getDocs(q);
         const orders = [];
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(async (doc) => {
             pedido = doc.data();
             pedido.id = doc.id;
-            pedido.lineas = getLineasPedidoByPedidoID(pedido.id);
+            pedido.lineas = await getLineasPedidoByPedidoID(pedido.id);
             orders.push(pedido);
         });
+        console.log('Pedidos:',orders);
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos por cliente:', error);
@@ -466,18 +472,21 @@ expressApp.get('/api/categorias/:id/productos', (req, res) => {
     });
 });
 expressApp.get('/api/pedidos', (req, res) => {
+    console.log('Peticion entrante /api/pedidos');
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
-        const user = decoded.user;
+        console.log('Token verificado');
         let orders = [];
-        if(user.userType = 0){
-            orders = await getPedidoByClienteID(user.id);
+        if(decoded.userType == 0){
+            orders = await getPedidoByClienteID(decoded.id);
         }else{
             orders = await getPedidos();
         }
-        res.json(orders);
+        const data = { error: false, pedidos: orders };
+        res.json(data);
     }).catch((error) => {
-        res.status(401).send('Error verificando token: ' + error);
+        console.log('Error verificando token:',error);
+        res.status(401).send({error: true, message: 'Error verificando token: ' + error});
 
     });
 });
@@ -530,7 +539,12 @@ expressApp.post('/api/saveOrder',(req,res)=>{
         const lineas = pedido.lineas;
         delete pedido.lineas;
         pedido.cliente = decoded.id;
-        pedido.fecha = new Date().toISOString();
+        //Guardar fecha en formato dd/mm/aaaa
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        pedido.fecha = day + '/' + month + '/' + year;
         const docRef = await addDoc(collection(db, 'pedidos'), pedido).catch((error) => {
             res.status(401).send({error: true, message: 'Error añadiendo pedido: ' + error});
         });
