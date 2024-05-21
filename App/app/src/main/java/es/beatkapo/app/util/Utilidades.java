@@ -43,6 +43,7 @@ public class Utilidades {
     public static final int SETTINGS = R.id.nav_information;
     public static final int ADMIN = R.id.nav_admin;
     public static String encryptPassword(String password) {
+        if(password == null) return null;
         try {
             // Crear una instancia de MessageDigest con el algoritmo SHA-256
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
