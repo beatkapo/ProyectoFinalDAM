@@ -94,14 +94,19 @@ async function getProductos() {
 async function getProductoByID(id) {
     // Obtener producto por id
     try {
-        const docRef = getDoc(db, 'productos', id);
+        const docRef = doc(db, 'productos', id);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
             product = docSnap.data();
             product.id = docSnap.id;
-            const ingredientes = await getProductoIngredientes(product.id);
+            const ingredientes = await getProductoIngredientes(product.id).catch((error) => {
+                console.error('Error obteniendo ingredientes del producto:', error);
+            });
             product.ingredientes = ingredientes;
-            const categoria = await getCategoriaByID(product.categoria);
+
+            const categoria = await getCategoriaByID(product.categoria).catch((error) => {
+                console.error('Error obteniendo categoria del producto:', error);
+            });
             product.categoria = categoria;
             const response = { error: false, producto: product };
             return response;
@@ -139,13 +144,8 @@ async function getIngredienteByID(id){
         if(docSnap.exists()){
             let ingredient = {...docSnap.data()}
             ingredient.id = docSnap.id;
-            console.log('ID ingrediente antes de alergenos',ingredient.id);
-            console.log('Antes de treure alergenos:',ingredient);
             
             const alergenos = await getAlergenosIngrediente(ingredient.id); 
-            console.log('ID ingrediente despues de alergenos',ingredient.id);
-            console.log('Despres de treure alergenos:',ingredient);
-            console.log('Alergenos:',alergenos);
             ingredient.alergenos = alergenos;
             return ingredient;
         }else{
@@ -195,16 +195,17 @@ async function getPedidos(){
         const q = query(collection(db, 'pedidos'));
         const querySnapshot = await getDocs(q);
         const orders = [];
-        querySnapshot.forEach(async (doc) => {
-            pedido = doc.data();
+        const promises = querySnapshot.docs.map(async (doc) => {
+            const pedido = doc.data();
             pedido.id = doc.id;
             pedido.lineas = await getLineasPedidoByPedidoID(pedido.id).catch((error) => {
                 console.error('Error obteniendo lineas de pedido:', error);
-            
             });
             orders.push(pedido);
+            console.log('Pedidos dentro del bucle: ',orders);
         });
-        console.log('Pedidos:',orders);
+        await Promise.all(promises);
+        console.log('Pedidos:',orders);// Y aqui?
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos:', error);
@@ -237,6 +238,7 @@ async function getLineasPedidoByPedidoID(pedidoID){
         const linesPromises = querySnapshot.docs.map(async (doc) => {
             const line = doc.data();
             line.id = doc.id;
+            //console.log('Linea:',line);
             const product = await getProductoByID(line.producto);
             line.producto = product;
             return line;
@@ -306,7 +308,6 @@ async function getProductoIngredientes(idProducto){
         const querySnapshot = await getDocs(q);
         const ingredientsPromises = querySnapshot.docs.map(async (doc) => {
             const relacion = {...doc.data()}
-            console.log('Relacion: ',relacion);
             return await getIngredienteByID(relacion.idIngrediente);
         });
         const ingredients = await Promise.all(ingredientsPromises);
@@ -319,11 +320,9 @@ async function getProductoIngredientes(idProducto){
 }
 async function getAlergenosIngrediente(idIngrediente){
     //La relacion entre ingredientes y alergenos se hace a traves de la coleccion "ingrediente_alergeno"
-    console.log('ID del ingrediente: ',idIngrediente)
     try {
         const q = query(collection(db, 'alergenos_ingredientes'), where('idIngrediente', '==', idIngrediente));
         const querySnapshot = await getDocs(q);
-        console.log('QuerySnapshot:',querySnapshot.docs);
         const alergenosPromises = querySnapshot.docs.map(async (doc) => {
             const relacion = doc.data();
             return getAlergenoByID(relacion.idAlergeno);
@@ -374,7 +373,6 @@ async function getUsuarioByID(id){
 expressApp.post('/api/register', (req, res) => {
     // Comprobar si ya existe el usuario en la base de datos
     const user = req.body;
-    console.log(user);
     const q = query(collection(db, 'usuarios'), where('email', '==', user.email));
     getDocs(q).then((querySnapshot) => {
         if (querySnapshot.empty) {
@@ -539,17 +537,20 @@ expressApp.post('/api/saveOrder',(req,res)=>{
         const lineas = pedido.lineas;
         delete pedido.lineas;
         pedido.cliente = decoded.id;
-        //Guardar fecha en formato dd/mm/aaaa
+        //Guardar fecha en formato dd/mm/aaaa hh:mm
         const date = new Date();
         const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
-        pedido.fecha = day + '/' + month + '/' + year;
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        pedido.fecha = hours + ':' + minutes+' ' +day + '/' + month + '/' + year;
         const docRef = await addDoc(collection(db, 'pedidos'), pedido).catch((error) => {
             res.status(401).send({error: true, message: 'Error añadiendo pedido: ' + error});
         });
         for(linea of lineas){
             linea.pedido = docRef.id;
+            linea.producto = linea.producto.id;
             await addDoc(collection(db, 'lineas_pedidos'), linea).catch((error) => {
                 res.status(401).send({error: true, message: 'Error añadiendo linea de pedido: ' + error});
             });
