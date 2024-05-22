@@ -91,6 +91,9 @@ public class OrdersActivity extends BaseActivity{
                 //intent.putExtra("pedidoSelected", pedido);
                 //startActivity(intent);
             });
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(5, 5, 5, 5);
+            orderView.setLayoutParams(params);
             ordersLayout.addView(orderView);
         }
     }

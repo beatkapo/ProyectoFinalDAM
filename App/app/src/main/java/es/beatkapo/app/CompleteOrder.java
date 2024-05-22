@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import es.beatkapo.app.model.LineaPedido;
+import es.beatkapo.app.model.Pedido;
 import es.beatkapo.app.response.Response;
 import es.beatkapo.app.service.SendOrder;
 import es.beatkapo.app.util.Utilidades;
@@ -122,6 +123,8 @@ public class CompleteOrder extends BaseActivity{
                     }else{
                         // Mostrar mensaje de éxito
                         Utilidades.showAlert(this, getString(R.string.orderSuccessTitle), getString(R.string.orderSuccessMessage), getString(R.string.accept), (d, w) -> {
+                            pedido = new Pedido();
+                            Utilidades.savePedido(pedido, this);
                             finish();
 
                         }, null, null);

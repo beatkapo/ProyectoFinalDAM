@@ -38,6 +38,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
+                android:fontFamily="@font/nunito_black"
                 android:text="@string/titleCabecera"
                 android:textSize="24sp" />
 

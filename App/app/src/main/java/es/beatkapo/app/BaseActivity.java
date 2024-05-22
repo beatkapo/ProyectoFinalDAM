@@ -142,7 +142,7 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
         });
-        switch (user.getTipoUsuario()){
+        switch (user.getUserType()){
             case 2:
                 navigationView.getMenu().findItem(ADMIN).setVisible(true);
                 break;
@@ -187,8 +187,8 @@ public class BaseActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(context, CompleteOrder.class);
             context.startActivity(intent);
+            popupWindow.dismiss();
         });
-
         popupWindow.setOnDismissListener(() -> {
             savePedido(pedido, context);
             actualizarCantidadCarrito();

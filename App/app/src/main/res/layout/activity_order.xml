@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center|top"
     android:fitsSystemWindows="false"
-    tools:context=".OrdersActivity"
+    tools:context=".OrderActivity"
     tools:openDrawer="end">
 
     <LinearLayout
@@ -55,6 +55,7 @@
                 android:src="@drawable/list"
                 app:tint="@color/white" />
         </LinearLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -65,41 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <LinearLayout
-            android:id="@+id/noOrdersLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/noOrdersTextView"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:lines="2"
-                android:padding="10dp"
-                android:text="@string/noOrdersYet" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/veri_peri"
-                android:drawableLeft="@drawable/burger"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/white"
-                android:onClick="returnHome"
-                android:padding="10dp"
-                android:text="@string/return_home" />
-
-
-        </LinearLayout>
-
 
     </LinearLayout>
 
@@ -111,6 +81,5 @@
         android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

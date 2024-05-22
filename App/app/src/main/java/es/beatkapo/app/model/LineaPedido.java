@@ -1,11 +1,11 @@
 package es.beatkapo.app.model;
 
 public class LineaPedido {
-    private int id;
+    private String id;
     private int cantidad;
     private Producto producto;
 
-    public LineaPedido(int id, int cantidad, Producto producto) {
+    public LineaPedido(String id, int cantidad, Producto producto) {
         this.id = id;
         this.cantidad = cantidad;
         this.producto = producto;
@@ -20,11 +20,11 @@ public class LineaPedido {
         this.cantidad = cantidad;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@ public class Usuario {
     private String password; // Contraseña del usuario
     private String direccion1; // Dirección principal del usuario
     private String direccion2; // Dirección secundaria del usuario
-    private int tipoUsuario; // Tipo de usuario (0: Usuario normal, 1: Trabajador, 2: Administrador)
+    private int userType; // Tipo de usuario (0: Usuario normal, 1: Trabajador, 2: Administrador)
     private String imagen; // Imagen de perfil del usuario
 
     /**
@@ -40,7 +40,7 @@ public class Usuario {
         this.password = password;
         this.direccion1 = direccion1;
         this.direccion2 = direccion2;
-        this.tipoUsuario = tipoUsuario;
+        this.userType = tipoUsuario;
         this.imagen = imagen;
     }
 
@@ -127,16 +127,16 @@ public class Usuario {
         this.direccion2 = direccion2;
     }
 
-    public int getTipoUsuario() {
-        return tipoUsuario;
+    public int getUserType() {
+        return userType;
     }
 
-    public void setTipoUsuario(int tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 
     public boolean esAdministrador() {
-        return this.getTipoUsuario() == 2;
+        return this.getUserType() == 2;
     }
 
 }

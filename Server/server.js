@@ -97,19 +97,18 @@ async function getProductoByID(id) {
         const docRef = doc(db, 'productos', id);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
-            product = docSnap.data();
+            const product = docSnap.data();
             product.id = docSnap.id;
             const ingredientes = await getProductoIngredientes(product.id).catch((error) => {
                 console.error('Error obteniendo ingredientes del producto:', error);
             });
             product.ingredientes = ingredientes;
-
             const categoria = await getCategoriaByID(product.categoria).catch((error) => {
                 console.error('Error obteniendo categoria del producto:', error);
             });
             product.categoria = categoria;
-            const response = { error: false, producto: product };
-            return response;
+            
+            return product;
         }else{
             const response = { error: true, message: 'Producto no encontrado' };
             return response;
@@ -202,10 +201,8 @@ async function getPedidos(){
                 console.error('Error obteniendo lineas de pedido:', error);
             });
             orders.push(pedido);
-            console.log('Pedidos dentro del bucle: ',orders);
         });
         await Promise.all(promises);
-        console.log('Pedidos:',orders);// Y aqui?
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos:', error);
@@ -217,13 +214,15 @@ async function getPedidoByClienteID(clienteID){
         const q = query(collection(db, 'pedidos'), where('cliente', '==', clienteID));
         const querySnapshot = await getDocs(q);
         const orders = [];
-        querySnapshot.forEach(async (doc) => {
-            pedido = doc.data();
+        const promises = querySnapshot.docs.map(async (doc) => {
+            const pedido = doc.data();
             pedido.id = doc.id;
-            pedido.lineas = await getLineasPedidoByPedidoID(pedido.id);
+            pedido.lineas = await getLineasPedidoByPedidoID(pedido.id).catch((error) => {
+                console.error('Error obteniendo lineas de pedido:', error);
+            });
             orders.push(pedido);
         });
-        console.log('Pedidos:',orders);
+        await Promise.all(promises);
         return orders;
     } catch (error) {
         console.error('Error obteniendo pedidos por cliente:', error);
@@ -407,7 +406,6 @@ expressApp.get('/api/productos', (req, res) => {
     verifyToken(token).then(async (decoded) => {
         const products = await getProductos();
         data = { error: false, productos: products , token: token};
-        console.log(data);
         res.json(data);
     }).catch((error) => {
         data = { error: true, message: 'Error verificando token: ' };
@@ -418,8 +416,9 @@ expressApp.get('/api/productos', (req, res) => {
 expressApp.get('/api/productos/:id', (req, res) => {
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
-        const response = await getProductoByID(req.params.id);
-        res.json(response);
+        const product = await getProductoByID(req.params.id);
+        const response = { error: false, producto: product };
+        res.send(response);
     }).catch((error) => {
         res.status(401).send('Error verificando token: ' + error);
 
@@ -474,8 +473,12 @@ expressApp.get('/api/pedidos', (req, res) => {
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         console.log('Token verificado');
+        const response = await getUsuarioByID(decoded.id);
+        const user = response.usuario;
         let orders = [];
-        if(decoded.userType == 0){
+        console.log('User:',user);
+        console.log('User type:',user.userType);
+        if(user.userType == 0){
             orders = await getPedidoByClienteID(decoded.id);
         }else{
             orders = await getPedidos();
