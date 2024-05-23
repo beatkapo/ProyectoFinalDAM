@@ -1,8 +1,9 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, query, where, getDocs, addDoc, getDoc, doc } = require('firebase/firestore');
+const { getFirestore, collection, query, where, getDocs, addDoc, getDoc, doc, setDoc } = require('firebase/firestore');
 const { firebaseConfig, secretWord } = require("./config");
 const jwt = require('jsonwebtoken');
-
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const e = require('express');
 const expressApp = express();
@@ -11,7 +12,8 @@ const PORT = 3000;
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-expressApp.use(express.json());
+expressApp.use(express.json({limit: '10mb'}));
+
 //Metodos relacionados con la autenticacion
 async function generateToken(user) {
     try {
@@ -29,6 +31,49 @@ async function verifyToken(token) {
     } catch (error) {
         const data = { error: true, message: 'Token inválido' };
         throw data;
+    }
+}
+async function saveBase64Image(base64String, id) {
+    try {
+        // Genera un nombre de archivo único
+        const filename = id + '.png';
+
+        // Decodifica la imagen
+        const data = base64String.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(data, 'base64');
+
+        // Define la ruta del archivo
+        const filePath = path.join(__dirname, 'img', filename);
+
+        // Guarda la imagen en el sistema de archivos
+        fs.writeFileSync(filePath, buffer);
+
+        // Devuelve el nombre del archivo
+        return filename;
+    } catch (error) {
+        console.error('Error guardando imagen:', error);
+        throw error;
+    }
+}
+async function getProductImageInBase64(productId) {
+    try {
+        // Genera el nombre del archivo
+        const filename = productId + '.png';
+
+        // Define la ruta del archivo
+        const filePath = path.join(__dirname, 'img', filename);
+
+        // Lee el archivo del sistema de archivos
+        const file = fs.readFileSync(filePath);
+
+        // Convierte el archivo a base64
+        const base64Image = Buffer.from(file).toString('base64');
+
+        // Devuelve la imagen en base64
+        return base64Image;
+    } catch (error) {
+        console.error('Error obteniendo imagen del producto:', error);
+        throw error;
     }
 }
 async function registerUser(user) {
@@ -564,6 +609,51 @@ expressApp.post('/api/saveOrder',(req,res)=>{
         res.status(401).send({error: true, message: 'Error verificando token: ' + error});
     });
 });
+
+expressApp.get('/api/img', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const id = req.body.id;
+        const base64Image = await getProductImageInBase64(id);
+        const response = { error: false, image: base64Image} 
+        res.send(response);
+    }).catch((error) => {
+        const response = { error: true, message: 'Error verificando token: ' + error };
+        res.status(401).send(response);
+    });
+});
+expressApp.put('/api/img', (req, res) => {
+        const id = req.body.id;
+        const base64Image = req.body.image;
+        const filename = saveBase64Image(base64Image, id);
+        const response = { error: false, message: 'Imagen guardada correctamente', filename: filename };
+        res.json(response); 
+});
+expressApp.patch('/api/usuario', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const user = req.body.usuario;
+        const docRef = doc(db, 'usuarios', decoded.id);
+        await setDoc(docRef, user, { merge: true });
+        res.json({ error: false, message: 'Usuario actualizado correctamente' });
+    }).catch((error) => {
+        const response = { error: true, message: 'Error verificando token: ' + error };
+        res.status(401).send(response);
+    });
+});
+expressApp.put('/api/usuario', (req, res) => {
+    const token = req.headers.authorization;
+    verifyToken(token).then(async (decoded) => {
+        const user = req.body.usuario;
+        const docRef = doc(db, 'usuarios', decoded.id);
+        await setDoc(docRef, user);
+        res.json({ error: false, message: 'Usuario actualizado correctamente' });
+    }).catch((error) => {
+        const response = { error: true, message: 'Error verificando token: '+ error };
+        res.status(401).send(response);
+    });
+});
+
 
 expressApp.listen(3000, () => {
     console.log('Server running on port ' + PORT);

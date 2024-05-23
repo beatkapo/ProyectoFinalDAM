@@ -35,8 +35,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="10"
+                android:fontFamily="@font/nunito_medium"
                 android:gravity="right"
-                android:text="x1" />
+                android:text="x1"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/nombreLineaPedido"
@@ -45,8 +47,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_weight="45"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="center"
-                android:text="Nombre producto" />
+                android:text="Nombre producto"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/precioLineaPedido"
@@ -55,8 +59,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="45"
+                android:fontFamily="@font/nunito_regular"
                 android:gravity="center|right"
-                android:text="0.00€" />
+                android:text="0.00€"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout

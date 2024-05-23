@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import es.beatkapo.app.BaseActivity;
 import es.beatkapo.app.CompleteOrder;
 import es.beatkapo.app.R;
 import es.beatkapo.app.model.LineaPedido;
@@ -215,7 +216,6 @@ public class Utilidades {
         carritoButton.getLocationOnScreen(location);
         popupWindow.showAtLocation(carritoButton, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.getHeight());
     }
-
 
 }
 

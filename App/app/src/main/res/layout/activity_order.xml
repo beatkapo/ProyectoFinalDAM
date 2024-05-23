@@ -33,13 +33,13 @@
                 android:src="@drawable/pizzeria_cabanes_white" />
 
             <TextView
-                android:id="@+id/title_orders"
+                android:id="@+id/title_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
-                android:text="@string/titleOrders"
+                android:text="@string/orderDetailsTitle"
                 android:textSize="24sp" />
 
             <ImageButton
@@ -68,6 +68,22 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"></LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

@@ -39,6 +39,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
+                android:fontFamily="@font/nunito_black"
                 android:text="@string/titleCabecera"
                 android:textSize="24sp" />
 
@@ -70,13 +71,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@drawable/pizza"/>
+
                 <TextView
                     android:id="@+id/productName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_bold"
                     android:text="Product name"
-                    android:textSize="24sp"
-                    android:layout_marginTop="10dp"/>
+                    android:textSize="24sp" />
                 <LinearLayout
                     android:id="@+id/alergenosLayout"
                     android:layout_width="match_parent"
@@ -84,20 +87,32 @@
                     android:orientation="horizontal">
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ingredientesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_italic"
+                    android:text="Queso, jamón, chorizo y cacahuetes" />
+
                 <TextView
                     android:id="@+id/productDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_medium"
                     android:text="Product description"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"/>
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/productPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="Product price"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -111,8 +126,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="150dp"
-        android:visibility="gone" />
+        android:padding="150dp" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -145,16 +159,18 @@
                     android:backgroundTint="@color/veri_peri"
                     android:textColor="@color/white"
                     android:id="@+id/menosButton"/>
+
                 <TextView
-                    android:layout_margin="10dp"
+                    android:id="@+id/cantidad_textView"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:text="1"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:gravity="center"
+                    android:layout_margin="10dp"
                     android:background="@drawable/rounded_corners"
-                    android:id="@+id/cantidad_textView"/>
+                    android:fontFamily="@font/nunito_regular"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
                 <Button
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -202,6 +218,7 @@
             android:layout_marginTop="-8dp"
             android:background="@drawable/rounded_corners"
             android:elevation="10dp"
+            android:fontFamily="@font/nunito_regular"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/black"
@@ -209,12 +226,12 @@
             app:layout_constraintEnd_toEndOf="@id/carritoButton"
             app:layout_constraintTop_toTopOf="@id/carritoButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
 

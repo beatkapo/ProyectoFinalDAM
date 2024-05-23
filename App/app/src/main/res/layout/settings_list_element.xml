@@ -23,6 +23,7 @@
             android:id="@+id/settings_list_element_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Texto opción" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

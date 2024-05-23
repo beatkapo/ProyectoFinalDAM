@@ -39,6 +39,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
+                android:fontFamily="@font/nunito_black"
                 android:text="@string/titleOrders"
                 android:textSize="24sp" />
 
@@ -78,8 +79,9 @@
 
             <TextView
                 android:id="@+id/noOrdersTextView"
-                android:layout_width="200dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_regular"
                 android:gravity="center"
                 android:lines="2"
                 android:padding="10dp"
@@ -93,6 +95,7 @@
                 android:drawableLeft="@drawable/burger"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/white"
+                android:fontFamily="@font/nunito_bold"
                 android:onClick="returnHome"
                 android:padding="10dp"
                 android:text="@string/return_home" />
@@ -108,7 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
 

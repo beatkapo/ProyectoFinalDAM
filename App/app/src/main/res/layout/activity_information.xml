@@ -38,6 +38,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
+                android:fontFamily="@font/nunito_black"
                 android:text="@string/menu_information"
                 android:textSize="24sp" />
 
@@ -70,6 +71,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/nunito_mediumitalic"
                     android:text="@string/information_profile"
                     android:textSize="12sp"
                     android:textStyle="italic" />
@@ -77,6 +79,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -88,14 +91,16 @@
 
                     <EditText
                         android:id="@+id/information_name_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Nombre" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -107,14 +112,16 @@
 
                     <EditText
                         android:id="@+id/information_email_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Email" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -128,6 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/veri_peri"
+                        android:fontFamily="@font/nunito_semibold"
                         android:onClick="changePassword"
                         android:text="@string/change_password" />
                 </LinearLayout>
@@ -140,6 +148,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/nunito_mediumitalic"
                     android:text="@string/information_contact"
                     android:textSize="12sp"
                     android:textStyle="italic" />
@@ -147,6 +156,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -158,8 +168,9 @@
 
                     <EditText
                         android:id="@+id/information_phone_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Teléfono"
                         android:inputType="phone" />
                 </LinearLayout>
@@ -167,6 +178,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -177,8 +189,9 @@
 
                     <EditText
                         android:id="@+id/information_address_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Dirección" />
                 </LinearLayout>
 
@@ -186,6 +199,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/veri_peri"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:onClick="updateUser"
                     android:text="@string/save" />
 
             </LinearLayout>
@@ -215,6 +230,7 @@
             android:layout_marginTop="-8dp"
             android:background="@drawable/rounded_corners"
             android:elevation="10dp"
+            android:fontFamily="@font/nunito_regular"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/black"

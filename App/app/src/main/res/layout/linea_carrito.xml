@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
+        android:fontFamily="@font/nunito_medium"
         android:gravity="right"
         android:text="x1" />
 
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Nombre producto" />
 
     <TextView
@@ -30,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
+        android:fontFamily="@font/nunito_regular"
         android:gravity="center|right"
         android:text="0.00€" />
 

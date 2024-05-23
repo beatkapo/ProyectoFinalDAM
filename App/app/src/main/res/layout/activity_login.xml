@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ems="10"
+            android:fontFamily="@font/nunito_regular"
             android:hint="@string/emailHint"
             android:inputType="textEmailAddress"
             android:text="admin@cabanes.es" />
@@ -57,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:fontFamily="@font/nunito_regular"
                 android:onClick="register_login"
                 android:text="@string/registrar" />
 
@@ -65,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:fontFamily="@font/nunito_regular"
                 android:onClick="login"
                 android:text="@string/iniciarSesion" />
         </LinearLayout>
@@ -75,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:clickable="true"
+            android:fontFamily="@font/nunito_light"
             android:gravity="center"
             android:onClick="forgotPasswordClicked"
             android:text="@string/forgotPassword" />

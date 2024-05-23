@@ -44,6 +44,7 @@
                     android:id="@+id/cardView_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
                     android:text="Pizza"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -53,6 +54,7 @@
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/nunito_regular"
                     android:maxLines="3"
                     android:text="Pizza de pepperoni que lo flipas pedito si me la como me desmayo tu que harias maquinon a saber verdad pos ya ves yo pienso lo mismo colega esto es uno movideta tronquetas."
                     android:textSize="11sp" />
@@ -75,6 +77,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@id/cardView_layoutInfo"
+                android:fontFamily="@font/nunito_bolditalic"
                 android:gravity="center"
                 android:text="10€"
                 android:textSize="13sp" />

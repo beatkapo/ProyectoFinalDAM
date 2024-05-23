@@ -1,6 +1,7 @@
 package es.beatkapo.app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +19,9 @@ import java.util.stream.Collectors;
 import es.beatkapo.app.model.Alergeno;
 import es.beatkapo.app.model.Ingrediente;
 import es.beatkapo.app.model.Producto;
+import es.beatkapo.app.response.ImageResponse;
 import es.beatkapo.app.response.ProductoResponse;
+import es.beatkapo.app.service.GetImage;
 import es.beatkapo.app.service.GetProductoById;
 import es.beatkapo.app.util.Utilidades;
 
@@ -44,6 +47,7 @@ public class ProductoActivity extends BaseActivity {
         super.initializeComponents();
         cantidad = 1;
         idProducto = getIntent().getStringExtra("idProducto");
+        ingredientes = findViewById(R.id.ingredientesTextView);
         nombre = findViewById(R.id.productName);
         precio = findViewById(R.id.productPrice);
         descripcion = findViewById(R.id.productDescription);
@@ -69,13 +73,45 @@ public class ProductoActivity extends BaseActivity {
             descripcion.setText(producto.getDescripcion());
             cantidadProducto.setText(String.valueOf(cantidad));
             rellenarAlergenos(alergenosLayout);
-            setVisibility(false);
+            rellenarIngredientes(producto);
+            GetImage serviceImage = new GetImage();
+            serviceImage.getImage(producto.getId(), responseImage -> {
+                if (responseImage == null) {
+                    // Mostrar mensaje de error
+                    Log.e("HomeActivity", "ImageResponse is null");
+                } else {
+                    // Guardar Base64 en el producto
+                    producto.setImagen(((ImageResponse) responseImage).getImage());
+                }
+                setVisibility(false);
+            }, ex -> {
+                // Mostrar mensaje de error
+                Log.e("HomeActivity", "Error al cargar la imagen", ex);
+            });
+
         }, error -> {
             Utilidades.showAlert(this, getString(R.string.internalErrorTitle), error.getMessage(), getString(R.string.accept), (d,w) ->{
                 finish();
             }, null, null);
         });
 
+    }
+
+    private void rellenarIngredientes(Producto producto) {
+        List<Ingrediente> ingredientesList = producto.getIngredientes();
+        StringBuilder sb = new StringBuilder();
+        for (Ingrediente ingrediente : ingredientesList) {
+            //Separar los ingredientes por comas y si es el ultimo una "y"
+            sb.append(ingrediente.getNombre());
+            if(ingredientesList.indexOf(ingrediente)==ingredientesList.size()-1){
+                sb.append(".");
+            }else if (ingredientesList.indexOf(ingrediente)==ingredientesList.size()-2){
+                sb.append(" y ");
+            }else{
+                sb.append(", ");
+            }
+        }
+        ingredientes.setText(sb.toString());
     }
 
     private void setVisibility(boolean isLoading){

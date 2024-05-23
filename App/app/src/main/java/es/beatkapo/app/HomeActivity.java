@@ -1,11 +1,13 @@
 package es.beatkapo.app;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +18,10 @@ import es.beatkapo.app.adapter.HomeListAdapter;
 import es.beatkapo.app.model.Categoria;
 import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.response.CategoriasResponse;
+import es.beatkapo.app.response.ImageResponse;
 import es.beatkapo.app.response.ProductosResponse;
 import es.beatkapo.app.service.GetCategoriasService;
+import es.beatkapo.app.service.GetImage;
 import es.beatkapo.app.service.GetProductosService;
 import es.beatkapo.app.util.Utilidades;
 
@@ -70,6 +74,22 @@ public class HomeActivity extends BaseActivity {
             } else {
                 // Cargar los productos en la vista
                 productos = ((ProductosResponse) response).getProductos();
+                for(Producto producto : productos){
+                    GetImage serviceImage = new GetImage();
+
+                    serviceImage.getImage(producto.getId(), responseImage -> {
+                        if (responseImage == null) {
+                            // Mostrar mensaje de error
+                            Log.e("HomeActivity", "ImageResponse is null");
+                        } else {
+                            // Guardar Base64 en el producto
+                            producto.setImagen(((ImageResponse) responseImage).getImage());
+                        }
+                    }, ex -> {
+                        // Mostrar mensaje de error
+                        Log.e("HomeActivity", "Error al cargar la imagen", ex);
+                    });
+                }
                 // Cargar las categorías
                 loadCategories();
             }
@@ -105,6 +125,8 @@ public class HomeActivity extends BaseActivity {
             textView.setText(categoria.getNombre());
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             textView.setTextSize(20);
+            Typeface typeface = ResourcesCompat.getFont(this, R.font.nunito_regular);
+            textView.setTypeface(typeface);
             homeLayout.addView(textView);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);

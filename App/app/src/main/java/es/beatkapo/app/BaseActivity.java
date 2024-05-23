@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Locale;
 
 import es.beatkapo.app.model.LineaPedido;
 import es.beatkapo.app.model.Pedido;
@@ -47,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Context context;
     private ImageButton btnMenu;
     private FloatingActionButton carritoButton;
+    private Switch languageSwitch;
 
     protected Pedido pedido;
 
@@ -62,7 +67,16 @@ public class BaseActivity extends AppCompatActivity {
         pedido = Utilidades.getPedido(this);
         btnMenu = findViewById(R.id.menuButton);
         carritoButton = findViewById(R.id.carritoButton);
-
+        languageSwitch = findViewById(R.id.languageSwitch);
+        languageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                setLocale("ca");
+            }else{
+                setLocale("es");
+            }
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        });
         if (carritoButton != null) {
             carritoButton.setOnClickListener(v -> {
                 abrirCarrito(pedido);
@@ -80,7 +94,15 @@ public class BaseActivity extends AppCompatActivity {
         name = v.findViewById(R.id.name_header);
         email = v.findViewById(R.id.email_header);
         loadUser();
+    }
 
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
     protected void actualizarCantidadCarrito() {

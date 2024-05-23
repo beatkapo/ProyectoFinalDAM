@@ -67,4 +67,19 @@
     <string name="orderSuccessMessage">Tu pedido está en marcha!</string>
     <string name="errorCompleteOrderTitle">Error al realizar pedido</string>
     <string name="errorCompleteOrder">Asegurate de rellenar todos los campos.</string>
+    <string name="orderDetailsTitle">Detalles del pedido</string>
+    <string name="old_password">Antigua contraseña</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="repeatNewPasswordHint">Repite la nueva contraseña</string>
+    <string name="internalError_updateUser">Hubo un problema al actualizar la información. Intentalo de nuevo más tarde.</string>
+    <string name="passwordSuccessTitle">Contraseña actualizada.</string>
+    <string name="success_passwordUser">Recuerda utilizar la nueva contraseña la proxima vez que inicies sesión.</string>
+    <string name="errorPasswordTitle">No se pudo actualizar la contraseña</string>
+    <string name="error_oldPasswordUser">Introduce correctamente la antigua contraseña y vuelve a intentarlo.</string>
+    <string name="error_oldPassword">Contraseña incorrecta</string>
+    <string name="passwordsNotMatch">Las contraseñas no coinciden</string>
+    <string name="error_emptyField">Información requerida</string>
+    <string name="updateSuccessTitle">Datos actualizados</string>
+    <string name="updateSuccess">Tu información ha quedado registrada en el sistema.</string>
+    <string name="responseError_img">Error al obtener imagen del servidor</string>
 </resources>
