@@ -1,18 +1,31 @@
 package es.beatkapo.app.service;
 
-import java.util.List;
-
-import es.beatkapo.app.model.Pedido;
 import es.beatkapo.app.response.PedidosResponse;
 import es.beatkapo.app.util.NodeServer;
 
-public class GetPedidos extends BaseService<Void, PedidosResponse>{
+/**
+ * Clase para obtener la lista de pedidos desde el servidor.
+ */
+public class GetPedidos extends BaseService<Void, PedidosResponse> {
+
+    /**
+     * Obtiene la clase de respuesta asociada al servicio.
+     *
+     * @return Clase de respuesta PedidosResponse.
+     */
     @Override
-    protected Class getResponseClass() {
+    protected Class<PedidosResponse> getResponseClass() {
         return PedidosResponse.class;
     }
-    public void getProductos(OnSuccessCallback onSuccess, OnFailureCallback onFailure){
-        String url = NodeServer.getServer()+"/api/pedidos";
-        executeRequest(url, null,"GET", onSuccess, onFailure);
+
+    /**
+     * Obtiene la lista de pedidos desde el servidor.
+     *
+     * @param onSuccess Callback llamado cuando la solicitud se completa con éxito.
+     * @param onFailure Callback llamado cuando la solicitud falla.
+     */
+    public void getProductos(OnSuccessCallback onSuccess, OnFailureCallback onFailure) {
+        String url = NodeServer.getServer() + "/api/pedidos"; // URL para obtener la lista de pedidos.
+        executeRequest(url, null, "GET", onSuccess, onFailure); // Ejecuta la solicitud HTTP GET.
     }
 }

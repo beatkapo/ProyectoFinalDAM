@@ -1,21 +1,17 @@
 package es.beatkapo.app;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import es.beatkapo.app.model.TipoUsuario;
 import es.beatkapo.app.model.Usuario;
 import es.beatkapo.app.response.LoginResponse;
 import es.beatkapo.app.response.UsuarioResponse;
@@ -24,7 +20,8 @@ import es.beatkapo.app.service.LoginService;
 import es.beatkapo.app.util.ServiceUtils;
 import es.beatkapo.app.util.Utilidades;
 
-public class LoginActivity extends AppCompatActivity {
+public class
+LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button login;

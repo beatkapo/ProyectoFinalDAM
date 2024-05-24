@@ -12,6 +12,9 @@ import es.beatkapo.app.response.RegisterResponse;
 import es.beatkapo.app.service.RegisterService;
 import es.beatkapo.app.util.Utilidades;
 
+/**
+ * Activity para manejar el registro de usuarios en la aplicación.
+ */
 public class RegisterActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -21,7 +24,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText phone;
     private Button register;
 
-
+    /**
+     * Método que se llama al crear la actividad.
+     * @param savedInstanceState Estado previamente guardado de la instancia.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,48 +35,65 @@ public class RegisterActivity extends AppCompatActivity {
         initializeComponents();
         initializeListeners();
     }
-    public void register(View v){
-        if(validateFields()){
-            //Crear objeto usuario
+
+    /**
+     * Método que maneja el proceso de registro cuando se hace clic en el botón de registro.
+     * @param v Vista que dispara el evento.
+     */
+    public void register(View v) {
+        if (validateFields()) {
+            // Crear objeto usuario
             Usuario usuario = new Usuario();
             usuario.setUserType(0);
             usuario.setEmail(email.getText().toString());
             usuario.setPassword(Utilidades.encryptPassword(password.getText().toString()));
+
             String nameStr = name.getText().toString();
             String addressStr = address.getText().toString();
             String phoneStr = phone.getText().toString();
-            if(nameStr != null && !nameStr.isEmpty()){
+
+            // Setear nombre si no está vacío
+            if (nameStr != null && !nameStr.isEmpty()) {
                 usuario.setNombre(nameStr);
             }
-            if(addressStr != null && !addressStr.isEmpty()){
+
+            // Setear dirección si no está vacía
+            if (addressStr != null && !addressStr.isEmpty()) {
                 usuario.setDireccion1(addressStr);
             }
-            if(phoneStr != null && !phoneStr.isEmpty()) {
+
+            // Setear teléfono si no está vacío
+            if (phoneStr != null && !phoneStr.isEmpty()) {
                 usuario.setTelefono1(phoneStr);
             }
-            //Llamar al servicio de registro
+
+            // Llamar al servicio de registro
             RegisterService registerService = new RegisterService();
             registerService.register(usuario, response -> {
-                //Si el registro es correcto, se muestra un mensaje y se cierra la actividad
+                // Si el registro es correcto, se muestra un mensaje y se cierra la actividad
                 RegisterResponse registerResponse = (RegisterResponse) response;
-                if(registerResponse.isError()){
-                    Utilidades.showAlert(this, getString(R.string.internalErrorTitle), getString(R.string.internalError_register), getString(R.string.accept), (a,b) ->{
+                if (registerResponse.isError()) {
+                    Utilidades.showAlert(this, getString(R.string.internalErrorTitle), getString(R.string.internalError_register), getString(R.string.accept), (a, b) -> {
                         finish();
                     }, null, null);
-                }else{
-                    Utilidades.showAlert(this, getString(R.string.registerSuccessTitle), getString(R.string.registerSuccess), getString(R.string.accept), (a,b) ->{
+                } else {
+                    Utilidades.showAlert(this, getString(R.string.registerSuccessTitle), getString(R.string.registerSuccess), getString(R.string.accept), (a, b) -> {
                         finish();
                     }, null, null);
                 }
             }, ex -> {
-                //Si ocurre un error, se muestra un mensaje
+                // Si ocurre un error, se muestra un mensaje
                 System.out.println("Error en el registro");
             });
-        }else{
+        } else {
             Utilidades.showAlert(this, getString(R.string.registerErrorTitle), getString(R.string.registerError), getString(R.string.accept), null, null, null);
         }
     }
 
+    /**
+     * Valida los campos de entrada del formulario.
+     * @return true si los campos son válidos, false en caso contrario.
+     */
     private boolean validateFields() {
         if (email.getError() != null || password.getError() != null || repeatPassword.getError() != null) {
             return false;
@@ -78,9 +101,13 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Inicializa los listeners para los campos del formulario.
+     */
     private void initializeListeners() {
-        //Listeners de los campos, al cambiar de campo se comprueba si el campo es correcto
-        email.setOnFocusChangeListener((v, hasFocus) -> { //Listener para el campo email
+        // Listeners de los campos, al cambiar de campo se comprueba si el campo es correcto
+        email.setOnFocusChangeListener((v, hasFocus) -> {
+            // Listener para el campo email
             if (!hasFocus) {
                 String emailStr = email.getText().toString();
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
@@ -88,7 +115,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        password.setOnFocusChangeListener((v, hasFocus) -> { //Listener para el campo password
+
+        password.setOnFocusChangeListener((v, hasFocus) -> {
+            // Listener para el campo password
             if (!hasFocus) {
                 String passwordStr = password.getText().toString();
                 if (passwordStr.length() < 8) {
@@ -96,7 +125,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        repeatPassword.setOnFocusChangeListener((v, hasFocus) -> { //Listener para el campo repeatPassword
+
+        repeatPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            // Listener para el campo repeatPassword
             if (!hasFocus) {
                 String passwordStr = password.getText().toString();
                 String repeatPasswordStr = repeatPassword.getText().toString();
@@ -105,7 +136,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        phone.setOnFocusChangeListener((v, hasFocus) -> { //Listener para el campo phone
+
+        phone.setOnFocusChangeListener((v, hasFocus) -> {
+            // Listener para el campo phone
             if (!hasFocus) {
                 String phoneStr = phone.getText().toString();
                 if (phoneStr.length() != 9) {
@@ -115,6 +148,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inicializa los componentes de la interfaz de usuario.
+     */
     private void initializeComponents() {
         email = findViewById(R.id.email_register);
         password = findViewById(R.id.password_register);
@@ -124,7 +160,4 @@ public class RegisterActivity extends AppCompatActivity {
         phone = findViewById(R.id.phone1_register);
         register = findViewById(R.id.registerButton_register);
     }
-
-
-
 }
