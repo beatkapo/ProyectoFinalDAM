@@ -1,5 +1,6 @@
 package es.beatkapo.app;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -78,15 +79,18 @@ public class ProductoActivity extends BaseActivity {
             serviceImage.getImage(producto.getId(), responseImage -> {
                 if (responseImage == null) {
                     // Mostrar mensaje de error
-                    Log.e("HomeActivity", "ImageResponse is null");
+                    Log.e("GetImage", "ImageResponse is null");
                 } else {
                     // Guardar Base64 en el producto
-                    producto.setImagen(((ImageResponse) responseImage).getImage());
+                    String image = ((ImageResponse) responseImage).getImage();
+                    producto.setImagen(image);
+                    Bitmap bitmap = Utilidades.base64ToBitmap(producto.getImagen(), 150, 150);
+                    imagen.setImageBitmap(bitmap);
                 }
                 setVisibility(false);
             }, ex -> {
                 // Mostrar mensaje de error
-                Log.e("HomeActivity", "Error al cargar la imagen", ex);
+                Log.e("GetImage", "Error al cargar la imagen", ex);
             });
 
         }, error -> {

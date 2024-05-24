@@ -53,7 +53,8 @@
                 android:onClick="showMenu"
                 android:scaleType="center"
                 android:src="@drawable/list"
-                app:tint="@color/white" />
+                android:tint="@color/white"
+                tools:ignore="UseAppTint"  />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -87,7 +88,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/user" />
+                        android:src="@drawable/user"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint"/>
 
                     <EditText
                         android:id="@+id/information_name_text"
@@ -108,7 +111,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/email" />
+                        android:src="@drawable/email"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint"/>
 
                     <EditText
                         android:id="@+id/information_email_text"
@@ -129,7 +134,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/password" />
+                        android:src="@drawable/password"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint"/>
 
                     <Button
                         android:layout_width="wrap_content"
@@ -164,7 +171,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/phone" />
+                        android:src="@drawable/phone"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint"/>
 
                     <EditText
                         android:id="@+id/information_phone_text"
@@ -185,7 +194,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/address" />
+                        android:src="@drawable/address"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint"/>
 
                     <EditText
                         android:id="@+id/information_address_text"

@@ -11,23 +11,22 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profilePicture_header"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:src="@drawable/profile"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:strokeColor="@android:color/darker_gray"
-            app:strokeWidth="10dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profilePicture_header"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:src="@drawable/profile"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:strokeColor="@android:color/darker_gray"
+                app:strokeWidth="10dp" />
 
             <TextView
                 android:id="@+id/name_header"
@@ -35,6 +34,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"
                 android:text="Name"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -44,9 +45,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_regular"
                 android:text="Email"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +62,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/bandera_de_espa_a" />
+                android:src="@drawable/bandera_de_espa_a" />
 
             <Switch
                 android:id="@+id/languageSwitch"
@@ -71,7 +73,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/bandera_de_catalunya" />
+                android:src="@drawable/bandera_de_catalunya" />
         </LinearLayout>
 
     </LinearLayout>

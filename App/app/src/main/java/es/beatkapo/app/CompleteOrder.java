@@ -20,6 +20,7 @@ import es.beatkapo.app.util.Utilidades;
 
 public class CompleteOrder extends BaseActivity{
     LinearLayout layoutProductos;
+    TextView totalPedido;
     Button completeOrderButton;
     EditText direccion;
     CheckBox card, cash;
@@ -38,6 +39,7 @@ public class CompleteOrder extends BaseActivity{
         direccion.setText(user.getDireccion1()==null?"":user.getDireccion1());
         card = findViewById(R.id.cardCheck);
         cash = findViewById(R.id.cashCheck);
+        totalPedido = findViewById(R.id.totalPedidoTextView);
         rellenarPedido();
 
     }
@@ -46,7 +48,7 @@ public class CompleteOrder extends BaseActivity{
     }
     private void rellenarPedido() {
         TextView numeroProductos = findViewById(R.id.numeroProductosTextView);
-
+        totalPedido.setText(String.format("%.2f", pedido.getTotal()) + "€");
         numeroProductos.setText(pedido.getCantidadProductos() + " producto"+(pedido.getCantidadProductos()==1?"":"s"));
         LayoutInflater inflater = LayoutInflater.from(this);
         for(LineaPedido l: pedido.getLineas()){
@@ -55,13 +57,14 @@ public class CompleteOrder extends BaseActivity{
             TextView cantidad = view.findViewById(R.id.cantidadLineaPedido);
             TextView precio = view.findViewById(R.id.precioLineaPedido);
             ImageView imagen = view.findViewById(R.id.imgLineaPedido);
+
             ImageButton mas = view.findViewById(R.id.masButtonLinea);
             ImageButton menos = view.findViewById(R.id.menosButtonLinea);
             nombre.setText(l.getProducto().getNombre());
             cantidad.setText("x"+ l.getCantidad());
             //Formatear el precio a 2 decimales
             precio.setText(String.format("%.2f", l.getPrecio()) + "€");
-            //imagen.setImageResource(l.getProducto().getImagen());
+            Utilidades.cargarImagen(l.getProducto(), imagen);
             mas.setOnClickListener(v -> {
                 l.setCantidad(l.getCantidad()+1);
                 int nCantidad = pedido.getCantidadProductos();

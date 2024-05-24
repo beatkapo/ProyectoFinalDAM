@@ -65,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/nunito_mediumitalic"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:padding="50dp"
                     android:text="@string/empty_cart"
@@ -87,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/secondary_dark_veri_peri"
+                app:backgroundTint="@color/veri_peri"
                 android:fontFamily="@font/nunito_regular"
                 android:text="@string/tramitarPedido"
                 android:textColor="@color/white" />
@@ -103,6 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/nunito_light"
                     android:text="@string/total" />
 
@@ -117,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:fontFamily="@font/nunito_semibold"
+                    android:textColor="@color/black"
                     android:text="0.00€"
                     android:textSize="18dp"
                     android:textStyle="bold" />

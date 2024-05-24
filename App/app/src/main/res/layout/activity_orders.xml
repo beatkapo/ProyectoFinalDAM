@@ -54,7 +54,8 @@
                 android:onClick="showMenu"
                 android:scaleType="center"
                 android:src="@drawable/list"
-                app:tint="@color/white" />
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
         </LinearLayout>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

@@ -27,6 +27,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="10"
                 android:src="@drawable/pizzeria_cabanes_white" />
+
             <TextView
                 android:id="@+id/title_complete_order"
                 android:layout_width="wrap_content"
@@ -34,6 +35,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="80"
+                android:fontFamily="@font/nunito_black"
                 android:text="@string/completarPedido"
                 android:textSize="24sp" />
             <ImageButton
@@ -47,7 +49,8 @@
                 android:scaleType="center"
                 android:background="#00FFFFFF"
                 android:src="@drawable/list"
-                app:tint="@color/white" />
+                android:tint="@color/white"
+                tools:ignore="UseAppTint"  />
         </LinearLayout>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -63,17 +66,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:fontFamily="@font/nunito_bold"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/tuPedido"
                     android:textColor="@color/white"
                     android:textSize="25sp" />
+
                 <TextView
                     android:id="@+id/numeroProductosTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X productos"
-                    android:padding="10dp"/>
+                    android:fontFamily="@font/nunito_regular"
+                    android:padding="10dp"
+                    android:text="X productos" />
                 <LinearLayout
                     android:id="@+id/layoutProductos"
                     android:layout_width="match_parent"
@@ -94,6 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:fontFamily="@font/nunito_medium"
                         android:text="@string/direccion"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
@@ -110,11 +117,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/metodoPago"
-                    android:padding="5dp"/>
+                    android:fontFamily="@font/nunito_regular"
+                    android:padding="5dp"
+                    android:text="@string/metodoPago" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,6 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/euro"
+
                         android:padding="5dp"/>
 
                     <CheckBox
@@ -132,6 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/nunito_medium"
                         android:text="@string/efectivo" />
                     <ImageView
                         android:layout_width="wrap_content"
@@ -144,14 +155,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/nunito_medium"
                         android:text="@string/tarjeta" />
 
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/totalPedidoTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/nunito_black"
                     android:gravity="center"
                     android:text="Total: 0.00€" />
 
@@ -163,6 +177,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/rounded_corners"
                     android:backgroundTint="@color/light_veri_peri"
+                    android:fontFamily="@font/nunito_regular"
                     android:onClick="completeOrder"
                     android:padding="10dp"
                     android:text="@string/complete_order"

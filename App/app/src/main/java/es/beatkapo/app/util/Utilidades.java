@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -30,12 +31,18 @@ import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.security.auth.callback.Callback;
+
 import es.beatkapo.app.BaseActivity;
 import es.beatkapo.app.CompleteOrder;
 import es.beatkapo.app.R;
 import es.beatkapo.app.model.LineaPedido;
 import es.beatkapo.app.model.Pedido;
+import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Usuario;
+import es.beatkapo.app.response.ImageResponse;
+import es.beatkapo.app.service.BaseService;
+import es.beatkapo.app.service.GetImage;
 
 public class Utilidades {
     public static final int HOME = R.id.nav_home;
@@ -93,10 +100,33 @@ public class Utilidades {
             }
         });
     }
-    public static Bitmap base64ToBitmap(String base64String) {
+    public static Bitmap base64ToBitmap(String base64String, int desiredWidth, int desiredHeight) {
         byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedString);
-        return BitmapFactory.decodeStream(inputStream);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length, options);
+
+        options.inSampleSize = calculateInSampleSize(options, desiredWidth, desiredHeight);
+
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
     public static String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -215,6 +245,27 @@ public class Utilidades {
         int[] location = new int[2];
         carritoButton.getLocationOnScreen(location);
         popupWindow.showAtLocation(carritoButton, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.getHeight());
+    }
+    public static void cargarImagen(Producto producto, ImageView imagen){
+        GetImage serviceImage = new GetImage();
+
+        serviceImage.getImage(producto.getId(), responseImage -> {
+            if (responseImage == null) {
+                // Mostrar mensaje de error para el debug
+                Log.e("GetImage", "ImageResponse is null");
+            } else {
+                // Guardar Base64 en el producto
+                String image = ((ImageResponse) responseImage).getImage();
+                producto.setImagen(image);
+                Bitmap bitmap = Utilidades.base64ToBitmap(producto.getImagen(), 150, 150);
+                imagen.setImageBitmap(bitmap);
+
+            }
+
+        }, ex -> {
+            // Mostrar mensaje de error para el debug
+            Log.e("GetImage", "Error al cargar la imagen", ex);
+        });
     }
 
 }

@@ -3,6 +3,7 @@ package es.beatkapo.app;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ public class HomeActivity extends BaseActivity {
     private List<Categoria> categorias;
     private List<Producto> productos;
     private ProgressBar progressBar;
+    private EditText searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class HomeActivity extends BaseActivity {
     protected void initializeComponents() {
         progressBar = findViewById(R.id.progressBar);
         homeLayout = findViewById(R.id.homeLayout);
+        searchEditText = findViewById(R.id.searchEditText);
         setVisibility(true);
 
         loadData();
@@ -66,7 +69,7 @@ public class HomeActivity extends BaseActivity {
         GetProductosService service = new GetProductosService();
         service.getProductos(response -> {
             if (response == null) {
-                // Mostrar mensaje de error
+                // Mostrar mensaje de error para el debug
                 Log.e("HomeActivity", "Response is null");
                 Utilidades.showAlert(this, getString(R.string.internalErrorTitle), getString(R.string.responseError_login), getString(R.string.accept), (d, w) -> {
                     finish();
@@ -74,27 +77,12 @@ public class HomeActivity extends BaseActivity {
             } else {
                 // Cargar los productos en la vista
                 productos = ((ProductosResponse) response).getProductos();
-                for(Producto producto : productos){
-                    GetImage serviceImage = new GetImage();
 
-                    serviceImage.getImage(producto.getId(), responseImage -> {
-                        if (responseImage == null) {
-                            // Mostrar mensaje de error
-                            Log.e("HomeActivity", "ImageResponse is null");
-                        } else {
-                            // Guardar Base64 en el producto
-                            producto.setImagen(((ImageResponse) responseImage).getImage());
-                        }
-                    }, ex -> {
-                        // Mostrar mensaje de error
-                        Log.e("HomeActivity", "Error al cargar la imagen", ex);
-                    });
-                }
                 // Cargar las categorías
                 loadCategories();
             }
         }, ex -> {
-            // Mostrar mensaje de error
+            // Mostrar mensaje de error para el debug
             Log.e("HomeActivity", "Error al cargar los productos", ex);
         });
     }
@@ -123,7 +111,9 @@ public class HomeActivity extends BaseActivity {
             // Crear un recyclerview y un textview por cada categoría
             TextView textView = new TextView(this);
             textView.setText(categoria.getNombre());
-            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(20, 0, 0, 0);
+            textView.setLayoutParams(params);
             textView.setTextSize(20);
             Typeface typeface = ResourcesCompat.getFont(this, R.font.nunito_regular);
             textView.setTypeface(typeface);

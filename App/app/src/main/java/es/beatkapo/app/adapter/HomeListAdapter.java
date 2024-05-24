@@ -22,6 +22,8 @@ import es.beatkapo.app.R;
 import es.beatkapo.app.model.Ingrediente;
 import es.beatkapo.app.model.Producto;
 import es.beatkapo.app.model.Alergeno;
+import es.beatkapo.app.response.ImageResponse;
+import es.beatkapo.app.service.GetImage;
 import es.beatkapo.app.util.Utilidades;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>{
@@ -72,10 +74,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             Log.e("HomeListAdapter", "Producto: " + producto.getNombre());
             nombre.setText(producto.getNombre());
             descripcion.setText(producto.getDescripcionCorta());
-            precio.setText(String.valueOf(producto.getPrecio()));
+            //formatear precio a 2 decimales
+            String precioFormateado = String.format("%.2f€", producto.getPrecio());
+            precio.setText(precioFormateado);
             if(producto.getImagen() != null){
-                Bitmap bitmap = Utilidades.base64ToBitmap(producto.getImagen());
-                imagen.setImageBitmap(bitmap);
+                Utilidades.cargarImagen(producto, imagen);
+
             }
             cardView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProductoActivity.class);

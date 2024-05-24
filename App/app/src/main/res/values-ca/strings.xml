@@ -20,15 +20,15 @@
     <string name="phoneHint">Telèfon</string>
     <string name="internalError_login">Hi ha hagut un problema intern en iniciar sessió</string>
     <string name="internalErrorTitle_login">Error inesperat</string>
-    <string name="accept">Acceptar\n</string>
+    <string name="accept">Acceptar&#10;</string>
     <string name="internalErrorTitle">Error inesperat</string>
     <string name="internalError_register">Hi ha hagut un error intern en registrar l\'usuari.</string>
     <string name="registerErrorTitle">Error en registrar-se.</string>
     <string name="registerError">Comprova que els camps són correctes.</string>
     <string name="registerSuccessTitle">Èxit en registrar-se</string>
-    <string name="registerSuccess">L\'usuari s\'ha registrat correctament.\nEs redirigirà automàticament a la pantalla d'inici de sessió</string>
+    <string name="registerSuccess">L\'usuari s\'ha registrat correctament.&#10;Es redirigirà automàticament a la pantalla d\'inici de sessió</string>
     <string name="registerQuestionTitle">Correu no registrat</string>
-    <string name="registerQuestionMessage">El correu no es troba entre els registrats.\nVols registrar-te ara?</string>
+    <string name="registerQuestionMessage">El correu no es troba entre els registrats.&#10;Vols registrar-te ara?</string>
     <string name="cancel">Cancel·lar</string>
     <string name="titleCabecera">Cabanes</string>
     <string name="menu_home">Inici</string>
@@ -52,7 +52,7 @@
     <string name="tramitarPedido">Tramitar comanda</string>
     <string name="cestaVacia">Encara no hi ha productes en el carret.</string>
     <string name="carrito">Carret de la compra</string>
-    <string name="empty_cart">No hi ha productes en el carret,\na què esperes?</string>
+    <string name="empty_cart">No hi ha productes en el carret,&#10;a què esperes?</string>
     <string name="total">Total:</string>
     <string name="productAdded">Producte afegit correctament</string>
     <string name="complete_order">Confirmar comanda</string>
@@ -69,4 +69,20 @@
     <string name="errorCompleteOrderTitle">Error en realitzar la comanda</string>
     <string name="errorCompleteOrder">Assegura\'t de reomplir tots els camps.</string>
     <string name="orderDetailsTitle">Detalls de la comanda</string>
+    <string name="old_password">Antiga contrasenya</string>
+    <string name="new_password">Nova contrasenya</string>
+    <string name="repeatNewPasswordHint">Repeteix la nova contrasenya</string>
+    <string name="internalError_updateUser">Hi ha hagut un problema en actualitzar la informació. Intenta-ho de nou més tard.</string>
+    <string name="passwordSuccessTitle">Contrasenya actualitzada.</string>
+    <string name="success_passwordUser">Recorda utilitzar la nova contrasenya la pròxima vegada que inicies sessió.</string>
+    <string name="errorPasswordTitle">No s\'ha pogut actualitzar la contrasenya</string>
+    <string name="error_oldPasswordUser">Introdueix correctament l\'antiga contrasenya i torna a intentar-ho.</string>
+    <string name="error_oldPassword">Contrasenya incorrecta</string>
+    <string name="passwordsNotMatch">Les contrasenyes no coincideixen</string>
+    <string name="error_emptyField">Informació requerida</string>
+    <string name="updateSuccessTitle">Dades actualitzades</string>
+    <string name="updateSuccess">La teua informació ha quedat registrada en el sistema.</string>
+    <string name="responseError_img">Error en obtindre la imatge del servidor</string>
+    <string name="busca">Busca el teu producte</string>
+
 </resources>

@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,22 +62,18 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initializeComponents();
         context = this;
+        if(getSwitchState()){
+            setLocale("ca");
+        }else{
+            setLocale("es");
+        }
     }
     protected void initializeComponents() {
 
         pedido = Utilidades.getPedido(this);
         btnMenu = findViewById(R.id.menuButton);
         carritoButton = findViewById(R.id.carritoButton);
-        languageSwitch = findViewById(R.id.languageSwitch);
-        languageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                setLocale("ca");
-            }else{
-                setLocale("es");
-            }
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-        });
+
         if (carritoButton != null) {
             carritoButton.setOnClickListener(v -> {
                 abrirCarrito(pedido);
@@ -93,6 +90,18 @@ public class BaseActivity extends AppCompatActivity {
         View v = navigationView.getHeaderView(0);
         name = v.findViewById(R.id.name_header);
         email = v.findViewById(R.id.email_header);
+        languageSwitch = v.findViewById(R.id.languageSwitch);
+        languageSwitch.setChecked(getSwitchState());
+        languageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                setLocale("ca");
+            }else{
+                setLocale("es");
+            }
+            saveSwitchState(isChecked);
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        });
         loadUser();
     }
 
@@ -259,7 +268,16 @@ public class BaseActivity extends AppCompatActivity {
         TextView total = popupView.findViewById(R.id.totalCart);
         total.setText(String.format("%.2f", pedido.getTotal()) + "€");
     }
-
+    private void saveSwitchState(boolean isChecked) {
+        SharedPreferences sharedPreferences = getSharedPreferences("lang", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("languageSwitch", isChecked);
+        editor.apply();
+    }
+    private boolean getSwitchState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("lang", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("languageSwitch", false);
+    }
     @Override
     protected void onResume() {
         super.onResume();

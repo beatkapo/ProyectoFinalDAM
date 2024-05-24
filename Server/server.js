@@ -459,6 +459,7 @@ expressApp.get('/api/productos', (req, res) => {
     });
 });
 expressApp.get('/api/productos/:id', (req, res) => {
+    console.log('Peticion entrante /api/productos/:id');
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
         const product = await getProductoByID(req.params.id);
@@ -610,10 +611,10 @@ expressApp.post('/api/saveOrder',(req,res)=>{
     });
 });
 
-expressApp.get('/api/img', (req, res) => {
+expressApp.get('/api/img/:id', (req, res) => {
     const token = req.headers.authorization;
     verifyToken(token).then(async (decoded) => {
-        const id = req.body.id;
+        const id = req.params.id;
         const base64Image = await getProductImageInBase64(id);
         const response = { error: false, image: base64Image} 
         res.send(response);
@@ -647,7 +648,7 @@ expressApp.put('/api/usuario', (req, res) => {
         const user = req.body.usuario;
         const docRef = doc(db, 'usuarios', decoded.id);
         await setDoc(docRef, user);
-        res.json({ error: false, message: 'Usuario actualizado correctamente' });
+        res.json({ error: false, message: 'Usuario actualizado correctamente', errorCode: 200 });
     }).catch((error) => {
         const response = { error: true, message: 'Error verificando token: '+ error };
         res.status(401).send(response);

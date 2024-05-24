@@ -9,7 +9,8 @@ public class GetImage extends BaseService<String, ImageResponse>{
         return ImageResponse.class;
     }
     public void getImage(String urlImg, OnSuccessCallback onSuccess, OnFailureCallback onFailure) {
-        String url = NodeServer.getServer()+"/api/img";
-        executeRequest(url, urlImg,"GET", onSuccess, onFailure);
+
+        String url = NodeServer.getServer()+"/api/img/"+urlImg;
+        executeRequest(url, null,"GET", onSuccess, onFailure);
     }
 }

@@ -1,16 +1,15 @@
 package es.beatkapo.app.util;
 
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.StringJoiner;
 import java.util.zip.GZIPInputStream;
 
-/**
- * ServiceUtils class to represent a service utils
- * This class is used to make requests to the server
- */
 public class ServiceUtils {
     private static String token = null;
 
@@ -22,15 +21,13 @@ public class ServiceUtils {
         ServiceUtils.token = null;
     }
 
-    // Get charset encoding (UTF-8, ISO,...)
     public static String getCharset(String contentType) {
         for (String param : contentType.replace(" ", "").split(";")) {
             if (param.startsWith("charset=")) {
                 return param.split("=", 2)[1];
             }
         }
-
-        return null; // Probably binary content
+        return null;
     }
 
     public static String getResponse(String url, String data, String method) {
@@ -39,11 +36,10 @@ public class ServiceUtils {
         try {
             URL urlConn = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
-            conn.setReadTimeout(20000 /*milliseconds*/);
-            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setReadTimeout(20000);
+            conn.setConnectTimeout(15000);
             conn.setRequestMethod(method);
 
-            //conn.setRequestProperty("Host", "localhost");
             conn.setRequestProperty("Connection", "keep-alive");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
@@ -51,9 +47,8 @@ public class ServiceUtils {
             conn.setRequestProperty("Accept-Charset", "UTF-8");
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36");
 
-            // If set, send the authentication token
-            if(token != null) {
-                conn.setRequestProperty("Authorization", "Bearer "+token);
+            if (token != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + token);
             }
 
             if (data != null) {
@@ -73,13 +68,13 @@ public class ServiceUtils {
                 InputStream input = conn.getInputStream();
                 if ("gzip".equals(conn.getContentEncoding())) {
                     input = new GZIPInputStream(input);
-                }else
+                } else
 
-                bufInput = new BufferedReader(
-                        new InputStreamReader(input));
+                    bufInput = new BufferedReader(
+                            new InputStreamReader(input));
 
                 String line;
-                while((line = bufInput.readLine()) != null) {
+                while ((line = bufInput.readLine()) != null) {
                     result.add(line);
                 }
             }
