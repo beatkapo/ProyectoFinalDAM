@@ -13,7 +13,7 @@ La base de datos almacena:
  - Pedidos
    
 
-## Servidor [->](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Server/index.js)
+## Servidor [->](https://github.com/beatkapo/ProyectoFinalDAM/blob/main/Server/server.js)
 API Express que se encargará de realizar las consultas a la base de datos.
 ### Endpoints
 #### POST /api/register
