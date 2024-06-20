@@ -12,7 +12,7 @@ const PORT = 3000;
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-expressApp.use(express.json({limit: '10mb'}));
+expressApp.use(express.json({limit: '10gb'}));
 
 //Metodos relacionados con la autenticacion
 async function generateToken(user) {
